@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { CAlert } from "@coreui/react";
 
 function App() {
   return (
@@ -18,6 +20,10 @@ function App() {
           Learn React
         </a>
       </header>
+      <CAlert color="primary">
+  A simple primary alert—check it out!
+</CAlert>
+
     </div>
   );
 }
