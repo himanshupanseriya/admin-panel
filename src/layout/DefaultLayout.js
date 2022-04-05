@@ -10,7 +10,7 @@ const DefaultLayout = () => {
 
   return (
     <div>
-      <Sidebar />
+      <Sidebar title={"ZECHROME"} />
       <div
         className="wrapper d-flex flex-column min-vh-100 "
         style={{

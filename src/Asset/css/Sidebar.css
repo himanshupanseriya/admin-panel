@@ -1,0 +1,5 @@
+.active .nav-link {
+    color: var(--cui-sidebar-nav-link-hover-color,rgba(255,255,255,.87));
+    text-decoration: none;
+    background: var(--cui-sidebar-nav-link-hover-bg,rgba(255,255,255,.05));
+  }

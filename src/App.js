@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "@coreui/coreui/dist/css/coreui.min.css";
 import Layout from "./layout/DefaultLayout";
 import { BrowserRouter as Router } from "react-router-dom";
-
+import "./Asset/css/index.css"
 function App() {
   return (
     <>
