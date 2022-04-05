@@ -18,9 +18,10 @@ import {
   cilGraph,
   cilUser,
 } from "@coreui/icons";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
+  const {title} = props
   const dispatch = useDispatch();
   const unfoldable = useSelector((state) => state.sidebarUnfoldable);
   const sidebarShow = useSelector((state) => state.sidebarShow);
@@ -39,32 +40,32 @@ const Sidebar = () => {
         </CSidebarBrand>
         <CSidebarNav>
           <SimpleBar>
-            <CNavTitle>ZECHROME</CNavTitle>
-            <Link to="/employee">
+            <CNavTitle>{title}</CNavTitle>
+            <NavLink to="/employee" className="text-decoration-none">
               <CNavItem to="/employee">
                 <CIcon customClassName="nav-icon" icon={cilUser} />
                 Employee
               </CNavItem>
-            </Link>
-            <Link to="/commision">
-              <CNavItem href="#">
+            </NavLink>
+            <NavLink to="/commision" className="text-decoration-none">
+              <CNavItem to="/commision">
                 <CIcon customClassName="nav-icon" icon={cilDollar} />
                 Commission
                 {/* <CBadge color="primary ms-auto">NEW</CBadge> */}
               </CNavItem>
-            </Link>
-            <Link to="/vendros">
-              <CNavItem href="#">
+            </NavLink>
+            <NavLink to="/vendros" className="text-decoration-none">
+              <CNavItem to="/vendros">
                 <CIcon customClassName="nav-icon" icon={cilPeople} />
                 Vendors
               </CNavItem>
-            </Link>
-            <Link to="/client">
-              <CNavItem href="#">
+            </NavLink>
+            <NavLink to="/client" className="text-decoration-none">
+              <CNavItem to="/client">
                 <CIcon customClassName="nav-icon" icon={cilGraph} />
                 Clients
               </CNavItem>
-            </Link>
+            </NavLink>
           </SimpleBar>
         </CSidebarNav>
         {/* <CSidebarToggler /> */}

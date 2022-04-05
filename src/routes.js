@@ -1,9 +1,9 @@
 import React from "react";
 
-const Employee = React.lazy(() => import("./Components/Employee"))
-const Commision = React.lazy(() => import("./Components/Commision"))
-const Vendros = React.lazy(() => import("./Components/Vendros"))
-const Client = React.lazy(() => import("./Components/Client"))
+const Employee = React.lazy(() => import("./Container/Employee/Employee"))
+const Commision = React.lazy(() => import("./Container/Commission/Commision"))
+const Vendros = React.lazy(() => import("./Container/Vendors/Vendros"))
+const Client = React.lazy(() => import("./Container/Clients/Client"))
 
 const routes = [
   // { path: "/", exact: true, name: "Employee" },
