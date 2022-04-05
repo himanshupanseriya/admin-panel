@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { CPagination} from "@coreui/react";
-import style from "./CDataTable.module.css";
+import style from "../Asset/css/CDataTable.module.css";
 // import CIcon from "@coreui/icons-react";
 // import { cilArrowTop, cilBan, cilFilterX } from "@coreui/icons";
 
@@ -578,13 +578,13 @@ const CDataTable = (props) => {
       </div>
 
       {underTableSlot}
-      <div style={totalPages > 1 ? { overflow: "hidden", padding: "10px 0", marginTop: "-10px", marginBottom: "-42px" } : { overflow: "hidden", height: "40px", padding: "10px 0", marginBottom: "-18px", marginTop: "-10px" }}>
+      <div>
         <div className="float-left form-inline my-xl-n2">
           {showAddForm}
         </div>
         <div className="form-inline float-right" style={totalPages > 1 ? { marginTop: "-3px" } : {}}>
           {itemsPerPageSelect && (
-            <div className="form-inline" style={totalPages > 1 ? { marginTop: "-20px" } : { marginTop: "-4%" }}>
+            <div className="form-inline">
               <label className="mr-2" style={{ margin: "0" }}>{paginationSelect.label}</label>
               <select
                 className="form-control"

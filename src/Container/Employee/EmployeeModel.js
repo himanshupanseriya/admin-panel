@@ -11,7 +11,8 @@ import {
   CRow,
 } from "@coreui/react";
 import React, { useState } from "react";
-import { getEmployee, saveEmployee } from "../Services/EmployeeApi";
+import { saveEmployee } from "../../Services/EmployeeApi";
+import { RequiredField } from "../../Utils/CommonUtils";
 
 const InitialEmployee = {
   fname: "",
@@ -24,7 +25,7 @@ const InitialEmployee = {
   status: "",
 };
 
-function EditEmployee() {
+const EmployeeModel = () => {
   const [editEmp, setEditEmp] = useState(false);
   const [employee, setEmployee] = useState(InitialEmployee);
   const [checkRequired, setCheckRequired] = useState(false);
@@ -33,17 +34,12 @@ function EditEmployee() {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
-    if( name === "salary"){
+    if (name === "salary") {
       setEmployee({
         ...employee,
         [name]: parseInt(value),
       });
-    }else if(name === "status"){
-      setEmployee({
-        ...employee,
-        [name]: value === "active" ? true : false,
-      });
-    }else{
+    } else {
       setEmployee({
         ...employee,
         [name]: value,
@@ -69,40 +65,16 @@ function EditEmployee() {
     });
     if (require) {
       console.log(employee);
-			let res = await saveEmployee(employee)
-			console.log(res)
+      let res = await saveEmployee(employee);
+      console.log(res);
       closeModel();
-			setCheckRequired(false);
+      setCheckRequired(false);
     }
   };
 
-  const RequiredField = () => {
-    return (
-      <p
-        className="reqValidator"
-        style={{
-          color: "red",
-          marginBottom: 0,
-          fontSize: 12,
-          transition: "0.3s",
-        }}
-      >
-        This field is required
-      </p>
-    );
-  };
-
-	const getData = () => {
-		let response = getEmployee()
-		console.log(response)
-	}
-
   return (
     <>
-      <button className="btn btn-primary" onClick={getData}>
-        Check API
-      </button>
-			<button className="btn btn-primary" onClick={() => setEditEmp(!editEmp)}>
+      <button className="btn btn-primary" onClick={() => setEditEmp(!editEmp)}>
         Show / Hide
       </button>
       <CModal
@@ -256,9 +228,11 @@ function EditEmployee() {
                 placeholder="Enter status"
                 onChange={(e) => handleInputChange(e)}
               >
-                <option value="" selected hidden disabled>Active / Inactive</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value={""} selected hidden disabled>
+                  Active / Inactive
+                </option>
+                <option value={true}>Active</option>
+                <option value={false}>Inactive</option>
               </CFormSelect>
               {checkRequired &&
               (!employee.status || employee.status === "-1") ? (
@@ -266,7 +240,7 @@ function EditEmployee() {
               ) : null}
             </CCol>
           </CRow>
-					<CRow className="mb-3">
+          <CRow className="mb-3">
             <CCol sm="4">
               <CFormLabel htmlFor="address">
                 Address<span className="text-danger">*</span>
@@ -290,16 +264,24 @@ function EditEmployee() {
           </CRow>
         </CModalBody>
         <CModalFooter>
-          <button className="btn btn-danger" style={{width:100}} onClick={closeModel}>
+          <button
+            className="btn btn-danger"
+            style={{ width: 100 }}
+            onClick={closeModel}
+          >
             Cancel
           </button>
-          <button className="btn btn-success" style={{width:100}} onClick={onSaveEmployee}>
+          <button
+            className="btn btn-success"
+            style={{ width: 100 }}
+            onClick={onSaveEmployee}
+          >
             Save
           </button>
         </CModalFooter>
       </CModal>
     </>
   );
-}
+};
 
-export default EditEmployee;
+export default EmployeeModel;

@@ -1,8 +1,8 @@
 import React from 'react'
 import { CCardBody } from '@coreui/react';
-import CDataTable from './CDataTable';
+import CDataTable from '../../Components/CDataTable';
 
-class DataTable extends React.Component {
+class EmployeeTable extends React.Component {
     render() {
         const { fields, data , onClickFunc, customObj, headerComp, scopedSlots,underTableSlot, showAddForm} = this.props;
         return (
@@ -32,4 +32,4 @@ class DataTable extends React.Component {
         );
     }
 }
-export default DataTable;
+export default EmployeeTable;
