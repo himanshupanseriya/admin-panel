@@ -2,27 +2,41 @@ import secureAxios from "./secureAxios";
 
 export const getEmployee = async () => {
   return await secureAxios({
-    url : "/all",
+    url: "/all",
     method: "get",
   })
-  .then((response) => {
-    return { success: true, data: response.data };
-  })
-  .catch((error) => {
-    return { success: false, error: error };
-  });
+    .then((response) => {
+      return { success: true, data: response.data };
+    })
+    .catch((error) => {
+      return { success: false, error: error };
+    });
 };
 
 export const saveEmployee = async (data) => {
   return await secureAxios({
-    url : "/add",
-    data : data,
+    url: "/add",
+    data: data,
     method: "post",
   })
-  .then((response) => {
-    return { success: true, data: response.data };
+    .then((response) => {
+      return { success: true, data: response.data };
+    })
+    .catch((error) => {
+      return { success: false, error: error };
+    });
+};
+
+export const deleteEmployee = async (id) => {
+  return await secureAxios({
+    url: `/delete/${id}`,
+    data: id,
+    method: "delete",
   })
-  .catch((error) => {
-    return { success: false, error: error };
-  });
+    .then((response) => {
+      return { success: true, data: response.data };
+    })
+    .catch((error) => {
+      return { success: false, error: error };
+    });
 };
