@@ -39,6 +39,11 @@ const EmployeeModel = () => {
         ...employee,
         [name]: parseInt(value),
       });
+    } else if (name === "status") {
+      setEmployee({
+        ...employee,
+        [name]: value === "active" ? true : false,
+      });
     } else {
       setEmployee({
         ...employee,
@@ -70,6 +75,22 @@ const EmployeeModel = () => {
       closeModel();
       setCheckRequired(false);
     }
+  };
+
+  const RequiredField = () => {
+    return (
+      <p
+        className="reqValidator"
+        style={{
+          color: "red",
+          marginBottom: 0,
+          fontSize: 12,
+          transition: "0.3s",
+        }}
+      >
+        This field is required
+      </p>
+    );
   };
 
   return (
