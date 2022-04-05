@@ -5,7 +5,7 @@ import { CContainer, CSpinner } from '@coreui/react'
 // routes config
 import routes from '../routes'
 
-const AppContent = () => {
+const Content = () => {
   return (
     <CContainer lg>
       <Suspense fallback={<CSpinner color="primary" />}>
@@ -23,11 +23,11 @@ const AppContent = () => {
               )
             )
           })}
-          <Route path="/" element={<Navigate to="dashboard" replace />} />
+          <Route path="/" element={<Navigate to="/employee" replace />} />
         </Routes>
       </Suspense>
     </CContainer>
   )
 }
 
-export default React.memo(AppContent)
+export default React.memo(Content)
