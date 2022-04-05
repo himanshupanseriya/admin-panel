@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "../Components/header";
-import Sidebar from "../Components/sidebar";
+import Header from "../Components/Header";
+import Sidebar from "../Components/Sidebar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
-import AppContent from "../Components/content"
+import AppContent from "../Components/Content"
 
 const DefaultLayout = () => {
   const sidebarShow = useSelector((state) => state.sidebarShow);

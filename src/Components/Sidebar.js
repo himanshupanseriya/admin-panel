@@ -18,6 +18,7 @@ import {
   cilGraph,
   cilUser,
 } from "@coreui/icons";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -39,23 +40,31 @@ const Sidebar = () => {
         <CSidebarNav>
           <SimpleBar>
             <CNavTitle>ZECHROME</CNavTitle>
-            <CNavItem href="#">
-              <CIcon customClassName="nav-icon" icon={cilUser} />
-              Employee
-            </CNavItem>
-            <CNavItem href="#">
-              <CIcon customClassName="nav-icon" icon={cilDollar} />
-              Commission
-              {/* <CBadge color="primary ms-auto">NEW</CBadge> */}
-            </CNavItem>
-            <CNavItem href="#">
-              <CIcon customClassName="nav-icon" icon={cilPeople} />
-              Vendors
-            </CNavItem>
-            <CNavItem href="#">
-              <CIcon customClassName="nav-icon" icon={cilGraph} />
-              Clients
-            </CNavItem>
+            <Link to="/employee">
+              <CNavItem to="/employee">
+                <CIcon customClassName="nav-icon" icon={cilUser} />
+                Employee
+              </CNavItem>
+            </Link>
+            <Link to="/commision">
+              <CNavItem href="#">
+                <CIcon customClassName="nav-icon" icon={cilDollar} />
+                Commission
+                {/* <CBadge color="primary ms-auto">NEW</CBadge> */}
+              </CNavItem>
+            </Link>
+            <Link to="/vendros">
+              <CNavItem href="#">
+                <CIcon customClassName="nav-icon" icon={cilPeople} />
+                Vendors
+              </CNavItem>
+            </Link>
+            <Link to="/client">
+              <CNavItem href="#">
+                <CIcon customClassName="nav-icon" icon={cilGraph} />
+                Clients
+              </CNavItem>
+            </Link>
           </SimpleBar>
         </CSidebarNav>
         {/* <CSidebarToggler /> */}
