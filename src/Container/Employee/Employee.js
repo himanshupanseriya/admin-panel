@@ -1,4 +1,5 @@
 import "@coreui/coreui/dist/css/coreui.min.css";
+import { CCard, CCardHeader } from "@coreui/react";
 import React, { useEffect, useState } from "react";
 import { getEmployee } from "../../Services/EmployeeApi";
 import EmployeeModel from "./EmployeeModel";
@@ -78,18 +79,22 @@ const Employee = () => {
 
   return (
     <>
-      <EmployeeModel
-        showModal={showModal}
-        setShowModal={setShowModal}
-        emplyoeeList={emplyoeeList}
-        setUserData={setUserData}
-      />
-      <EmployeeTable
-        fields={fields}
-        data={userData}
-        scopedSlots={scopedSlots}
-        onClickFunc={onRowClick}
-      />
+      <CCard>
+        <CCardHeader className="d-flex justify-content-between align-items-center">
+          <EmployeeModel
+            showModal={showModal}
+            setShowModal={setShowModal}
+            emplyoeeList={emplyoeeList}
+            setUserData={setUserData}
+          />
+        </CCardHeader>
+        <EmployeeTable
+          fields={fields}
+          data={userData}
+          scopedSlots={scopedSlots}
+          onClickFunc={onRowClick}
+        />
+      </CCard>
     </>
   );
 };

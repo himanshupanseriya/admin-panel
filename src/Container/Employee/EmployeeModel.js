@@ -44,11 +44,6 @@ const EmployeeModel = (props) => {
         ...employee,
         [name]: parseInt(value),
       });
-    } else if (name === "status") {
-      setEmployee({
-        ...employee,
-        [name]: value === "active" ? true : false,
-      });
     } else {
       setEmployee({
         ...employee,
@@ -86,8 +81,10 @@ const EmployeeModel = (props) => {
 
   return (
     <>
-      <button className="btn btn-primary" onClick={() => setEditEmp(!editEmp)}>
-        Show / Hide
+    
+      <h3>Employee Table</h3>
+      <button className="btn btn-primary my-2" onClick={() => setEditEmp(!editEmp)}>
+        Add New
       </button>
       <CModal
         visible={showModal}
