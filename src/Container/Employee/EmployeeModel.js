@@ -26,7 +26,7 @@ const InitialEmployee = {
 };
 
 const EmployeeModel = (props) => {
-  const { showModal, setShowModal, emplyoeeList, setUserData } = props;
+  const { showModal, setShowModal, emplyoeeList, setUserData,init } = props;
   const [editEmp, setEditEmp] = useState(false);
   const [employee, setEmployee] = useState(InitialEmployee);
   const [checkRequired, setCheckRequired] = useState(false);
@@ -78,6 +78,7 @@ const EmployeeModel = (props) => {
       console.log(employee);
       let res = await updateEmployee(employee._id, employee);
       // setEmployee(res.data);
+      init();
       console.log(res.data);
       closeModel();
       setCheckRequired(false);

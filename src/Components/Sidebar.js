@@ -21,15 +21,15 @@ import {
 import { NavLink } from "react-router-dom";
 
 const Sidebar = (props) => {
-  const {title} = props
+  const { title } = props;
   const dispatch = useDispatch();
-  const unfoldable = useSelector((state) => state.sidebarUnfoldable);
+  // const unfoldable = useSelector((state) => state.sidebarUnfoldable);
   const sidebarShow = useSelector((state) => state.sidebarShow);
   return (
     <>
       <CSidebar
         position="fixed"
-        unfoldable={unfoldable}
+        // unfoldable={unfoldable}
         visible={sidebarShow}
         onVisibleChange={(visible) => {
           dispatch({ type: "set", sidebarShow: visible });

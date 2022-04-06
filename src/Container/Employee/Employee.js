@@ -23,6 +23,7 @@ const Employee = () => {
 
   const fields = [
     // { key: "id", label: "No.", _style: { width: "5%" } },
+    // { key: "Index", label: "Index" },
     { key: "fname", label: "First Name" },
     { key: "lname", label: "Last Name" },
     { key: "mobile", label: "Mobile" },
@@ -43,6 +44,16 @@ const Employee = () => {
   };
 
   const scopedSlots = {
+    // Index:(item,index)=>{
+    //   return(
+    //     <>
+    //     <td>
+    //       {index+1}
+    //     </td>
+    //     </>
+    //   )
+    // },
+
     delete: (item, index) => {
       return (
         <>
@@ -78,18 +89,23 @@ const Employee = () => {
 
   return (
     <>
-      <EmployeeModel
-        showModal={showModal}
-        setShowModal={setShowModal}
-        emplyoeeList={emplyoeeList}
-        setUserData={setUserData}
-      />
-      <EmployeeTable
-        fields={fields}
-        data={userData}
-        scopedSlots={scopedSlots}
-        onClickFunc={onRowClick}
-      />
+      <CCard>
+        <CCardHeader className="d-flex justify-content-between align-items-center">
+          <EmployeeModel
+            showModal={showModal}
+            setShowModal={setShowModal}
+            emplyoeeList={emplyoeeList}
+            setUserData={setUserData}
+            init={init}
+          />
+        </CCardHeader>
+        <EmployeeTable
+          fields={fields}
+          data={userData}
+          scopedSlots={scopedSlots}
+          onClickFunc={onRowClick}
+        />
+      </CCard>
     </>
   );
 };
