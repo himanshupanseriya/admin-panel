@@ -1,9 +1,9 @@
 import React from "react";
 import { CCardBody, CButton } from "@coreui/react";
-import CDataTable from "./CDataTable";
-import { deleteEmployee } from "../Services/EmployeeApi";
+import CDataTable from "../../Components/CDataTable"
+import { deleteEmployee } from "../../Services/EmployeeApi";
 
-class DataTable extends React.Component {
+class EmployeeTable extends React.Component {
   render() {
     const {
       fields,
@@ -46,7 +46,6 @@ class DataTable extends React.Component {
                       size="sm"
                       onClick={() => {
                         deleteEmployee(data[index]._id);
-                        
                       }}
                     >
                       DELETE
