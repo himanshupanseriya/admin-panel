@@ -21,7 +21,7 @@ import {
 import { NavLink } from "react-router-dom";
 
 const Sidebar = (props) => {
-  const {title} = props
+  const { title } = props;
   const dispatch = useDispatch();
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
   return (

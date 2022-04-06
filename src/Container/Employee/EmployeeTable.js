@@ -21,11 +21,10 @@ class EmployeeTable extends React.Component {
           <CDataTable
             items={data}
             fields={fields}
-            columnFilter
             tableFilter
             cleaner
             itemsPerPageSelect
-            itemsPerPage={20}
+            itemsPerPage={10}
             hover
             sorter
             pagination
