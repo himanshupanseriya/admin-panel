@@ -1,4 +1,5 @@
 import "@coreui/coreui/dist/css/coreui.min.css";
+import { CCard, CCardHeader } from "@coreui/react";
 import React, { useEffect, useState } from "react";
 import { getEmployee } from "../../Services/EmployeeApi";
 import EmployeeModel from "./EmployeeModel";
@@ -6,6 +7,8 @@ import EmployeeTable from "./EmployeeTable";
 // import { CDataTable } from "@coreui/react";
 import { CBadge, CButton, CCardBody, CCollapse } from "@coreui/react";
 import { deleteEmployee } from "../../Services/EmployeeApi";
+import CIcon from "@coreui/icons-react";
+import { cilPencil, cilTrash } from "@coreui/icons";
 
 const Employee = () => {
   const [userData, setUserData] = useState([]);
@@ -57,9 +60,23 @@ const Employee = () => {
     delete: (item, index) => {
       return (
         <>
-          <td className="py-2">
+          <td className="py-2 text-center">
             <CButton
-              color="primary"
+              color="warning"
+              variant="outline"
+              shape="square"
+              size="sm"
+              className="me-2"
+              onClick={() => {
+                setShowModal(true);
+                setEmplyoeeList(item);
+              }}
+            >
+              {/* EDIT */}
+              <CIcon icon={cilPencil}></CIcon>
+            </CButton>
+            <CButton
+              color="danger"
               variant="outline"
               shape="square"
               size="sm"
@@ -67,19 +84,8 @@ const Employee = () => {
                 deleteUser(item._id);
               }}
             >
-              DELETE
-            </CButton>{" "}
-            <CButton
-              color="primary"
-              variant="outline"
-              shape="square"
-              size="sm"
-              onClick={() => {
-                setShowModal(true);
-                setEmplyoeeList(item);
-              }}
-            >
-              EDIT
+              {/* DELETE */}
+              <CIcon icon={cilTrash}></CIcon>
             </CButton>
           </td>
         </>
@@ -100,6 +106,7 @@ const Employee = () => {
           />
         </CCardHeader>
         <EmployeeTable
+          init={init}
           fields={fields}
           data={userData}
           scopedSlots={scopedSlots}

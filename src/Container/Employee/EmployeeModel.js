@@ -44,11 +44,6 @@ const EmployeeModel = (props) => {
         ...employee,
         [name]: parseInt(value),
       });
-    } else if (name === "status") {
-      setEmployee({
-        ...employee,
-        [name]: value === "active" ? true : false,
-      });
     } else {
       setEmployee({
         ...employee,
@@ -75,8 +70,13 @@ const EmployeeModel = (props) => {
       }
     });
     if (require) {
-      console.log(employee);
-      let res = await updateEmployee(employee._id, employee);
+      if(employee._id === undefined){
+        let response = await saveEmployee(employee);
+        console.log(response.data);
+      }else{
+        let response = await updateEmployee(employee._id, employee);
+        console.log(response.data);
+      }
       // setEmployee(res.data);
       init();
       console.log(res.data);
@@ -84,11 +84,16 @@ const EmployeeModel = (props) => {
       setCheckRequired(false);
     }
   };
-
+  const onAddNewEmployee = () => {
+    setShowModal(true)
+    setEmployee(InitialEmployee)
+  }
   return (
     <>
-      <button className="btn btn-primary" onClick={() => setEditEmp(!editEmp)}>
-        Show / Hide
+    
+      <h3>Employee Table</h3>
+      <button className="btn btn-primary my-2" onClick={() => onAddNewEmployee()}>
+        Add New
       </button>
       <CModal
         visible={showModal}

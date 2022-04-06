@@ -1,6 +1,7 @@
 import React from "react";
 import { CCardBody, CButton } from "@coreui/react";
 import CDataTable from "../../Components/CDataTable";
+import { deleteEmployee } from "../../Services/EmployeeApi";
 
 class EmployeeTable extends React.Component {
   render() {
