@@ -1,42 +1,51 @@
 import secureAxios from "./secureAxios";
 
 export const getEmployee = async () => {
-  return await secureAxios({
-    url: "/all",
-    method: "get",
-  })
-    .then((response) => {
-      return { success: true, data: response.data };
-    })
-    .catch((error) => {
-      return { success: false, error: error };
+  try {
+    let res = await secureAxios({
+      url: "/all",
+      method: "get",
     });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const saveEmployee = async (data) => {
-  return await secureAxios({
-    url: "/add",
-    data: data,
-    method: "post",
-  })
-    .then((response) => {
-      return { success: true, data: response.data };
-    })
-    .catch((error) => {
-      return { success: false, error: error };
+  try {
+    let res = await secureAxios({
+      url: "/add",
+      data: data,
+      method: "post",
     });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const deleteEmployee = async (id) => {
-  return await secureAxios({
-    url: `/delete/${id}`,
-    data: id,
-    method: "delete",
-  })
-    .then((response) => {
-      return { success: true, data: response.data };
-    })
-    .catch((error) => {
-      return { success: false, error: error };
+  try {
+    let res = await secureAxios({
+      url: `/delete/${id}`,
+      method: "delete",
     });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateEmployee = async (id, data) => {
+  try {
+    let res = await secureAxios({
+      url: `/update/${id}`,
+      data: data,
+      method: "put",
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
