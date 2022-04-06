@@ -13,7 +13,7 @@ import CIcon from "@coreui/icons-react";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const sidebarShow = useSelector((state) => state.sidebarShow);
+  const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
   return (
     <>
       <CHeader position="sticky" className="mb-4 ">

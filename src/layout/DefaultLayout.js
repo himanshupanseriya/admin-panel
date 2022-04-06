@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import AppContent from "../Components/Content";
 
 const DefaultLayout = () => {
-  const sidebarShow = useSelector((state) => state.sidebarShow);
+  const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
 
   return (
     <div>

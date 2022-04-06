@@ -1,10 +1,11 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { CPagination } from "@coreui/react";
+import { CPagination, CPaginationItem } from "@coreui/react";
 import style from "../Asset/css/CDataTableModule.css"
-// import CIcon from "@coreui/icons-react";
-// import { cilArrowTop, cilBan, cilFilterX } from "@coreui/icons";
+import { connect } from "react-redux";
+import CIcon from "@coreui/icons-react";
+import { cilArrowTop, cilBan, cilFilterX } from "@coreui/icons";
 
 //component - CoreUI / CTable
 const CDataTable = (props) => {
@@ -67,11 +68,8 @@ const CDataTable = (props) => {
 
   // console.log(customObj, "----------Cdatatable--------------");
 
-  const compData = useRef({
-    firstRun: true,
-    columnFiltered: 0,
-    changeItems: 0,
-  }).current;
+  const compData = useRef({ firstRun: true, columnFiltered: 0, changeItems: 0 })
+    .current;
 
   //
   const [perPageItems, setPerPageItems] = useState(itemsPerPage);
@@ -231,11 +229,11 @@ const CDataTable = (props) => {
   useMemo(() => {
     compData.columnFiltered++;
   }, [
-    JSON.stringify(columnFilter),
-    JSON.stringify(columnFilterState),
-    itemsDataColumns.join(""),
-    compData.changeItems,
-  ]);
+      JSON.stringify(columnFilter),
+      JSON.stringify(columnFilterState),
+      itemsDataColumns.join(""),
+      compData.changeItems,
+    ]);
 
   const columnFiltered = useMemo(() => {
     let items = passedItems;
@@ -288,10 +286,10 @@ const CDataTable = (props) => {
     });
     return sorted;
   }, [
-    JSON.stringify(tableFiltered),
-    JSON.stringify(sorterState),
-    JSON.stringify(sorter),
-  ]);
+      JSON.stringify(tableFiltered),
+      JSON.stringify(sorterState),
+      JSON.stringify(sorter),
+    ]);
 
   useEffect(() => {
     !compData.firstRun &&
@@ -370,12 +368,12 @@ const CDataTable = (props) => {
     sorterState.column ||
     Object.values(columnFilterState).join("");
 
-  // const cleanerProps = {
-  //   content: cilFilterX,
-  //   className: `ml-2 ${isFiltered ? "text-danger" : "transparent"}`,
-  //   role: isFiltered ? "button" : null,
-  //   tabIndex: isFiltered ? 0 : null,
-  // };
+  const cleanerProps = {
+    content: cilFilterX,
+    className: `ml-2 ${isFiltered ? "text-danger" : "transparent"}`,
+    role: isFiltered ? "button" : null,
+    tabIndex: isFiltered ? 0 : null,
+  };
 
   // watch
   useMemo(() => setPerPageItems(itemsPerPage), [itemsPerPage]);
@@ -384,10 +382,10 @@ const CDataTable = (props) => {
 
   useMemo(() => setTableFilterState(tableFilterValue), [tableFilterValue]);
 
-  useMemo(
-    () => setColumnFilterState({ ...columnFilterValue }),
-    [columnFilterValue]
-  );
+  useMemo(() => setColumnFilterState({ ...columnFilterValue }), [
+    columnFilterValue,
+  ]);
+
 
   //items
   useMemo(() => {
@@ -430,14 +428,13 @@ const CDataTable = (props) => {
             {
               isSortable(index) &&
                 sortingIconSlot &&
-                sortingIconSlot(getIconState(index), iconClasses(index))
-              // || (
-              //   <CIcon
-              //     customClasses={classNames(iconClasses(index))}
-              //     width={18}
-              //     content={cilArrowTop}
-              //   />
-              // )
+                sortingIconSlot(getIconState(index), iconClasses(index)) || (
+                <CIcon
+                  customClasses={classNames(iconClasses(index))}
+                  // width={"18px"}
+                  icon={cilArrowTop}
+                />
+              )
             }
           </th>
         );
@@ -576,12 +573,12 @@ const CDataTable = (props) => {
                     <div className="text-center my-5">
                       <h2>
                         {noItemsText}
-                        {/* <CIcon
-                          width={30}
-                          name="cilBan"
-                          content={cilBan}
-                          className="text-danger mb-2"
-                        /> */}
+                        <CIcon
+                          // width="30px"
+                          // name="cilBan"
+                          icon={cilBan}
+                          // className="text-danger mb-2"
+                        />
                       </h2>
                     </div>
                   )}
@@ -632,11 +629,7 @@ const CDataTable = (props) => {
                 </option>
                 {paginationSelect.values.map((number, key) => {
                   return (
-                    <option
-                      selected={number == 10 ? "true" : ""}
-                      val={number}
-                      key={key}
-                    >
+                    <option selected={number == 20 ? "true" : ""} val={number} key={key}>
                       {number}
                     </option>
                   );
@@ -644,39 +637,38 @@ const CDataTable = (props) => {
               </select>
             </div>
           )}
-          {totalPages == 1 ? (
+          {totalPages == 1 ?
             <>
-              <div className="">
-                {pagination && (
-                  <CPagination
-                    {...paginationProps}
-                    style={{ display: totalPages > 1 ? "inline" : "none" }}
-                    onActivePageChange={(page) => {
-                      setPage(page);
-                    }}
-                    pages={totalPages}
-                    activePage={page}
-                  />
-                )}
-              </div>
+            <div className="new-pagination">
+              {pagination && (
+                <CPagination
+                  {...paginationProps}
+                  style={{ display: totalPages > 1 ? "inline" : "none" }}
+                  onActivePageChange={(page) => {
+                    setPage(page);
+                  }}
+                  pages={totalPages}
+                  activePage={page}
+                />
+              )}
+            </div>
             </>
-          ) : (
+            :
             <>
-              <div className="" style={{ marginTop: "-6px" }}>
-                {pagination && (
-                  <CPagination
-                    {...paginationProps}
-                    style={{ display: totalPages > 1 ? "inline" : "none" }}
-                    onActivePageChange={(page) => {
-                      setPage(page);
-                    }}
-                    pages={totalPages}
-                    activePage={page}
-                  />
-                )}
-              </div>
-            </>
-          )}
+            <div className="" style={{ marginTop: "-6px" }}>
+              {pagination && (
+                <CPagination
+                  {...paginationProps}
+                  style={{ display: totalPages > 1 ? "inline" : "none" }}
+                  onActivePageChange={(page) => {
+                    setPage(page);
+                  }}
+                  pages={totalPages}
+                  activePage={page}
+                />
+              )}
+            </div>
+            </>}
         </div>
       </div>
     </React.Fragment>
@@ -749,4 +741,30 @@ CDataTable.defaultProps = {
     label: "",
   },
 };
-export default CDataTable;
+const mapStateToProps = (state) => {
+  state = state.changeState
+  return {
+    varDef: state.varDef,
+    ManageDefs: state.ManageDefs,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setVarDef: (data) =>
+      dispatch({
+        type: "set",
+        varDef: data,
+
+      }),
+    setManageDef: (data) =>
+      dispatch({
+        type: "set",
+
+        ManageDefs: data,
+      }),
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CDataTable);
