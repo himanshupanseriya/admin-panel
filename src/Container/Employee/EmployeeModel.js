@@ -10,8 +10,8 @@ import {
   CModalHeader,
   CRow,
 } from "@coreui/react";
-import React, { useState } from "react";
-import { saveEmployee } from "../../Services/EmployeeApi";
+import React, { useState, useEffect } from "react";
+import { saveEmployee, updateEmployee } from "../../Services/EmployeeApi";
 import { RequiredField } from "../../Utils/CommonUtils";
 
 const InitialEmployee = {
@@ -25,10 +25,15 @@ const InitialEmployee = {
   status: "",
 };
 
-const EmployeeModel = () => {
+const EmployeeModel = (props) => {
+  const { showModal, setShowModal, emplyoeeList, setUserData } = props;
   const [editEmp, setEditEmp] = useState(false);
   const [employee, setEmployee] = useState(InitialEmployee);
   const [checkRequired, setCheckRequired] = useState(false);
+
+  useEffect(() => {
+    setEmployee(emplyoeeList);
+  }, [emplyoeeList]);
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -53,6 +58,7 @@ const EmployeeModel = () => {
   };
 
   const closeModel = () => {
+    setShowModal(false);
     setEditEmp(false);
     setCheckRequired(false);
     setEmployee(InitialEmployee);
@@ -70,27 +76,12 @@ const EmployeeModel = () => {
     });
     if (require) {
       console.log(employee);
-      let res = await saveEmployee(employee);
-      console.log(res);
+      let res = await updateEmployee(employee._id, employee);
+      // setEmployee(res.data);
+      console.log(res.data);
       closeModel();
       setCheckRequired(false);
     }
-  };
-
-  const RequiredField = () => {
-    return (
-      <p
-        className="reqValidator"
-        style={{
-          color: "red",
-          marginBottom: 0,
-          fontSize: 12,
-          transition: "0.3s",
-        }}
-      >
-        This field is required
-      </p>
-    );
   };
 
   return (
@@ -99,7 +90,7 @@ const EmployeeModel = () => {
         Show / Hide
       </button>
       <CModal
-        visible={editEmp}
+        visible={showModal}
         onClose={() => closeModel()}
         alignment="center"
         size="md"
