@@ -70,20 +70,27 @@ const EmployeeModel = (props) => {
       }
     });
     if (require) {
-      console.log(employee);
-      let res = await updateEmployee(employee._id, employee);
+      if(employee._id === undefined){
+        let response = await saveEmployee(employee);
+        console.log(response.data);
+      }else{
+        let response = await updateEmployee(employee._id, employee);
+        console.log(response.data);
+      }
       // setEmployee(res.data);
-      console.log(res.data);
       closeModel();
       setCheckRequired(false);
     }
   };
-
+  const onAddNewEmployee = () => {
+    setShowModal(true)
+    setEmployee(InitialEmployee)
+  }
   return (
     <>
     
       <h3>Employee Table</h3>
-      <button className="btn btn-primary my-2" onClick={() => setEditEmp(!editEmp)}>
+      <button className="btn btn-primary my-2" onClick={() => onAddNewEmployee()}>
         Add New
       </button>
       <CModal
