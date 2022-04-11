@@ -1,8 +1,7 @@
 import axios from "axios";
-import { ApiPath } from "../API/secure_api";
 
 const secureAxios = axios.create({
-    baseURL : ApiPath
+    baseURL : process.env.REACT_APP_API_PATH
 })
 
 export default secureAxios;
