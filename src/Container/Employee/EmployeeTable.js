@@ -20,7 +20,6 @@ class EmployeeTable extends React.Component {
           <CDataTable
             items={data}
             fields={fields}
-            columnFilter
             tableFilter
             cleaner
             itemsPerPageSelect
