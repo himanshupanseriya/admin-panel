@@ -19,7 +19,7 @@ const DefaultLayout = () => {
         }}
       >
         <Header />
-        <div className="body flex-grow-1 px-3">
+        <div className="body flex-grow-1 px-3 mt-4" style={{paddingTop : "55px"}}>
           <AppContent />
         </div>
       </div>

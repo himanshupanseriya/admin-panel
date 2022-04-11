@@ -1,5 +1,13 @@
 .active .nav-link {
-    color: var(--cui-sidebar-nav-link-hover-color,rgba(255,255,255,.87));
-    text-decoration: none;
-    background: var(--cui-sidebar-nav-link-hover-bg,rgba(255,255,255,.05));
-  }
+  color: var(--cui-sidebar-nav-link-hover-color, rgba(255, 255, 255, 0.87));
+  text-decoration: none;
+  background: var(--cui-sidebar-nav-link-hover-bg, rgba(255, 255, 255, 0.05));
+}
+.sidebar-nav .accordion-button {
+  background: transparent;
+  color: white ;
+  border: none;
+}
+.sidebar-nav .accordion-button:focus{
+  box-shadow: none;
+}

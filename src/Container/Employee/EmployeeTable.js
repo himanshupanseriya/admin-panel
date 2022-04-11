@@ -1,7 +1,6 @@
 import React from "react";
-import { CCardBody, CButton } from "@coreui/react";
+import { CCardBody } from "@coreui/react";
 import CDataTable from "../../Components/CDataTable";
-import { deleteEmployee } from "../../Services/EmployeeApi";
 
 class EmployeeTable extends React.Component {
   render() {
@@ -16,7 +15,7 @@ class EmployeeTable extends React.Component {
       showAddForm,
     } = this.props;
     return (
-      <div>
+      <>
         <CCardBody>
           <CDataTable
             items={data}
@@ -25,7 +24,7 @@ class EmployeeTable extends React.Component {
             tableFilter
             cleaner
             itemsPerPageSelect
-            itemsPerPage={20}
+            itemsPerPage={10}
             hover
             sorter
             pagination
@@ -38,7 +37,7 @@ class EmployeeTable extends React.Component {
             scopedSlots={scopedSlots}
           ></CDataTable>
         </CCardBody>
-      </div>
+      </>
     );
   }
 }
