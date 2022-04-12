@@ -16,6 +16,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { useSelector, useDispatch } from "react-redux";
 import SimpleBar from "simplebar-react";
+import "../Asset/css/Sidebar.css"
 
 import {
   cilDiamond,
@@ -41,23 +42,23 @@ const Sidebar = (props) => {
         style={{ left: sidebarShow ? "0" : "-256px" ,transition:"0.3s"}}
       >
         <CSidebarBrand className="d-none d-md-flex">
-          <CIcon icon={cilDiamond} size="xl" />
+          <CIcon content={cilDiamond}/>
         </CSidebarBrand>
         <CSidebarNav>
           <SimpleBar>
             <CSidebarNavTitle>{title}</CSidebarNavTitle>
-            <div className="accordion" activeItemKey={1}>
-              <div className="accordion-item" itemKey={1} className="bg-transparent">
-                <div className="accordion-header">
-                  <CIcon customClassName="nav-icon" icon={cilUser} />
+            <div>
+              <div className="accordion-item" className="bg-transparent">
+                <div className="accordion-header" id="headingOne">
+                  <CIcon customClassName="nav-icon" content={cilUser} />
                   Employee
                 </div>
                 <div className="py-0 px-0 accordion-body">
                   <NavLink to="/employee" className="text-decoration-none">
-                    <CSidebarNavItem to="/employee">
+                    <CNavItem to="/employee">
                       <CIcon customClassName="nav-icon" />
                       List
-                    </CSidebarNavItem>
+                    </CNavItem>
                   </NavLink>
                   <NavLink to="/commission" className="text-decoration-none">
                     <CNavItem to="/commission">
