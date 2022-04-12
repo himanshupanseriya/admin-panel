@@ -1,0 +1,9 @@
+.dateInput {
+    height: 35px;
+    width: 200px;
+    border: 2px solid black;
+    text-align: center;
+    font-size: 20px;
+    background-color: black;
+    color: white;
+}
