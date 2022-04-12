@@ -1,9 +1,6 @@
 import {
   CContainer,
   CHeader,
-  CHeaderBrand,
-  CHeaderNav,
-  CHeaderToggler,
 } from "@coreui/react";
 import { useSelector, useDispatch } from "react-redux";
 import React from "react";
@@ -16,17 +13,14 @@ const Header = () => {
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
   return (
     <>
-      <CHeader position="sticky" className="mb-4 ">
-        <CContainer fluid>
-          <CHeaderToggler
-            className="ps-1"
+      <CHeader style={{ left: sidebarShow ? "256px" : "0", transition:"0.3s"}}>
+        <CContainer fluid className="d-flex align-items-center">
+          <div
+            className="ps-1 "
             onClick={() => dispatch({ type: "set", sidebarShow: !sidebarShow })}
           >
-            <CIcon icon={cilMenu} size="lg" />
-          </CHeaderToggler>
-          <CHeaderNav className="d-none d-md-flex me-auto">
-            <CHeaderBrand href="#">Header</CHeaderBrand>
-          </CHeaderNav>
+            <CIcon content={cilMenu} size="lg" style={{cursor:"pointer"}}/>
+          </div>
         </CContainer>
       </CHeader>
     </>

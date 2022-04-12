@@ -1,39 +1,29 @@
 import {
   CCol,
-  CFormInput,
-  CFormLabel,
-  CFormSelect,
-  CFormTextarea,
+  CInput,
   CModal,
   CModalBody,
   CModalFooter,
   CModalHeader,
   CRow,
+  CLabel,
+  CTextarea,
+  CSelect,
 } from "@coreui/react";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { saveEmployee, updateEmployee } from "../../Services/EmployeeApi";
 import { RequiredField } from "../../Utils/CommonUtils";
 
-const InitialEmployee = {
-  fname: "",
-  lname: "",
-  mobile: "",
-  email: "",
-  dob: "",
-  salary: "",
-  address: "",
-  status: "",
-};
-
 const EmployeeModel = (props) => {
-  const { showModal, setShowModal, emplyoeeList, setUserData,init } = props;
-  const [editEmp, setEditEmp] = useState(false);
-  const [employee, setEmployee] = useState(InitialEmployee);
+  const {
+    showModal,
+    setShowModal,
+    setEmployee,
+    employee,
+    init,
+    InitialEmployee,
+  } = props;
   const [checkRequired, setCheckRequired] = useState(false);
-
-  useEffect(() => {
-    setEmployee(emplyoeeList);
-  }, [emplyoeeList]);
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -53,10 +43,9 @@ const EmployeeModel = (props) => {
   };
 
   const closeModel = () => {
-    setShowModal(false);
-    setEditEmp(false);
-    setCheckRequired(false);
     setEmployee(InitialEmployee);
+    setShowModal(false);
+    setCheckRequired(false);
   };
 
   const onSaveEmployee = async () => {
@@ -70,33 +59,28 @@ const EmployeeModel = (props) => {
       }
     });
     if (require) {
-      if(employee._id === undefined){
-        let response = await saveEmployee(employee);
-        console.log(response.data);
-      }else{
-        let response = await updateEmployee(employee._id, employee);
-        console.log(response.data);
-      }
-      // setEmployee(res.data);
+      employee._id
+        ? await updateEmployee(employee._id, employee)
+        : await saveEmployee(employee);
       init();
-      console.log(res.data);
       closeModel();
-      setCheckRequired(false);
     }
   };
   const onAddNewEmployee = () => {
-    setShowModal(true)
-    setEmployee(InitialEmployee)
-  }
+    setShowModal(true);
+    setEmployee(InitialEmployee);
+  };
   return (
     <>
-    
       <h3>Employee Table</h3>
-      <button className="btn btn-primary my-2" onClick={() => onAddNewEmployee()}>
+      <button
+        className="btn btn-primary my-2 ms-auto"
+        onClick={() => onAddNewEmployee()}
+      >
         Add New
       </button>
       <CModal
-        visible={showModal}
+        show={showModal}
         onClose={() => closeModel()}
         alignment="center"
         size="md"
@@ -105,14 +89,14 @@ const EmployeeModel = (props) => {
           <h3>Employee Details</h3>
         </CModalHeader>
         <CModalBody>
-          <CRow className="mb-3">
+          <CRow className="mb-2">
             <CCol sm="4">
-              <CFormLabel htmlFor="fname">
+              <CLabel htmlFor="fname">
                 First Name : <span className="text-danger">*</span>
-              </CFormLabel>
+              </CLabel>
             </CCol>
             <CCol sm="8">
-              <CFormInput
+              <CInput
                 id="fname"
                 name="fname"
                 value={employee.fname}
@@ -125,14 +109,14 @@ const EmployeeModel = (props) => {
               ) : null}
             </CCol>
           </CRow>
-          <CRow className="mb-3">
+          <CRow className="mb-2">
             <CCol sm="4">
-              <CFormLabel htmlFor="lname">
+              <CLabel htmlFor="lname">
                 Last Name:<span className="text-danger">*</span>
-              </CFormLabel>
+              </CLabel>
             </CCol>
             <CCol sm="8">
-              <CFormInput
+              <CInput
                 id="lname"
                 name="lname"
                 value={employee.lname}
@@ -145,14 +129,14 @@ const EmployeeModel = (props) => {
               ) : null}
             </CCol>
           </CRow>
-          <CRow className="mb-3">
+          <CRow className="mb-2">
             <CCol sm="4">
-              <CFormLabel htmlFor="mobile">
+              <CLabel htmlFor="mobile">
                 Mobile No:<span className="text-danger">*</span>
-              </CFormLabel>
+              </CLabel>
             </CCol>
             <CCol sm="8">
-              <CFormInput
+              <CInput
                 id="mobile"
                 name="mobile"
                 value={employee.mobile}
@@ -167,14 +151,14 @@ const EmployeeModel = (props) => {
               ) : null}
             </CCol>
           </CRow>
-          <CRow className="mb-3">
+          <CRow className="mb-2">
             <CCol sm="4">
-              <CFormLabel htmlFor="email">
+              <CLabel htmlFor="email">
                 Email Id:<span className="text-danger">*</span>
-              </CFormLabel>
+              </CLabel>
             </CCol>
             <CCol sm="8">
-              <CFormInput
+              <CInput
                 type="email"
                 id="email"
                 name="email"
@@ -188,14 +172,14 @@ const EmployeeModel = (props) => {
               ) : null}
             </CCol>
           </CRow>
-          <CRow className="mb-3">
+          <CRow className="mb-2">
             <CCol sm="4">
-              <CFormLabel htmlFor="dob">
+              <CLabel htmlFor="dob">
                 Date Of Birth : <span className="text-danger">*</span>
-              </CFormLabel>
+              </CLabel>
             </CCol>
             <CCol sm="8">
-              <CFormInput
+              <CInput
                 type="date"
                 id="dob"
                 name="dob"
@@ -209,14 +193,14 @@ const EmployeeModel = (props) => {
               ) : null}
             </CCol>
           </CRow>
-          <CRow className="mb-3">
+          <CRow className="mb-2">
             <CCol sm="4">
-              <CFormLabel htmlFor="salary">
+              <CLabel htmlFor="salary">
                 Salary : <span className="text-danger">*</span>
-              </CFormLabel>
+              </CLabel>
             </CCol>
             <CCol sm="8">
-              <CFormInput
+              <CInput
                 type="number"
                 id="salary"
                 name="salary"
@@ -231,14 +215,14 @@ const EmployeeModel = (props) => {
               ) : null}
             </CCol>
           </CRow>
-          <CRow className="mb-3">
+          <CRow className="mb-2">
             <CCol sm="4">
-              <CFormLabel htmlFor="status">
+              <CLabel htmlFor="status">
                 Status<span className="text-danger">*</span>
-              </CFormLabel>
+              </CLabel>
             </CCol>
             <CCol sm="8">
-              <CFormSelect
+              <CSelect
                 id="status"
                 name="status"
                 value={employee.status}
@@ -251,21 +235,21 @@ const EmployeeModel = (props) => {
                 </option>
                 <option value={true}>Active</option>
                 <option value={false}>Inactive</option>
-              </CFormSelect>
+              </CSelect>
               {checkRequired &&
               (!employee.status || employee.status === "-1") ? (
                 <RequiredField />
               ) : null}
             </CCol>
           </CRow>
-          <CRow className="mb-3">
+          <CRow>
             <CCol sm="4">
-              <CFormLabel htmlFor="address">
+              <CLabel htmlFor="address">
                 Address<span className="text-danger">*</span>
-              </CFormLabel>
+              </CLabel>
             </CCol>
             <CCol sm="8">
-              <CFormTextarea
+              <CTextarea
                 rows="2"
                 id="address"
                 name="address"
@@ -284,14 +268,14 @@ const EmployeeModel = (props) => {
         <CModalFooter>
           <button
             className="btn btn-danger"
-            style={{ width: 100 }}
+            style={{ width: 100 ,color:"White"}}
             onClick={closeModel}
           >
             Cancel
           </button>
           <button
             className="btn btn-success"
-            style={{ width: 100 }}
+            style={{ width: 100 ,color:"White"}}
             onClick={onSaveEmployee}
           >
             Save

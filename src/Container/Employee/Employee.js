@@ -1,63 +1,74 @@
-import "@coreui/coreui/dist/css/coreui.min.css";
 import { CCard, CCardHeader } from "@coreui/react";
 import React, { useEffect, useState } from "react";
 import { getEmployee } from "../../Services/EmployeeApi";
 import EmployeeModel from "./EmployeeModel";
 import EmployeeTable from "./EmployeeTable";
-// import { CDataTable } from "@coreui/react";
-import { CBadge, CButton, CCardBody, CCollapse } from "@coreui/react";
+import { CButton } from "@coreui/react";
 import { deleteEmployee } from "../../Services/EmployeeApi";
 import CIcon from "@coreui/icons-react";
-import { cilPencil, cilTrash } from "@coreui/icons";
+import { cilPencil, cilTrash, cilWindowRestore } from "@coreui/icons";
+
+const InitialEmployee = {
+  fname: "",
+  lname: "",
+  mobile: "",
+  email: "",
+  dob: "",
+  salary: "",
+  address: "",
+  status: "",
+};
 
 const Employee = () => {
   const [userData, setUserData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [emplyoeeList, setEmplyoeeList] = useState({});
+  const [employee, setEmployee] = useState(InitialEmployee);
 
-  useEffect(() => {
-    init();
-  }, []);
-
+  
   const init = async () => {
     let getTableData = await getEmployee();
     setUserData(getTableData.data);
   };
+  
+  useEffect(() => {
+    init();
+  }, []);
 
   const fields = [
-    // { key: "id", label: "No.", _style: { width: "5%" } },
-    // { key: "Index", label: "Index" },
     { key: "fname", label: "First Name" },
     { key: "lname", label: "Last Name" },
     { key: "mobile", label: "Mobile" },
     { key: "email", label: "Email" },
-    { key: "dob", label: "Date of Birth" },
+    { key: "dob", label: "DOB" },
     { key: "salary", label: "Salary" },
     { key: "address", label: "Address" },
     { key: "status", label: "status" },
     { key: "delete", label: "" },
   ];
-  const onRowClick = (currentRow) => {
-    console.log(currentRow);
-  };
 
   const deleteUser = async (id) => {
+    if(!window.confirm("Are You Sure Want To Delete")) return
     await deleteEmployee(id);
     init();
   };
 
   const scopedSlots = {
-    // Index:(item,index)=>{
-    //   return(
-    //     <>
-    //     <td>
-    //       {index+1}
-    //     </td>
-    //     </>
-    //   )
-    // },
-
-    delete: (item, index) => {
+    status: (item) => {
+      return (
+        <td className="text-center">
+          {item.status == true ? (
+            <span className="badge bg-success rounded-pill">
+              Active
+            </span>
+          ) : (
+            <span className="badge bg-danger rounded-pill">
+              Inactive
+            </span>
+          )}
+        </td>
+      );
+    },
+    delete: (item) => {
       return (
         <>
           <td className="py-2 text-center">
@@ -68,12 +79,11 @@ const Employee = () => {
               size="sm"
               className="me-2"
               onClick={() => {
+                setEmployee(item);
                 setShowModal(true);
-                setEmplyoeeList(item);
               }}
             >
-              {/* EDIT */}
-              <CIcon icon={cilPencil}></CIcon>
+              <CIcon content={cilPencil}></CIcon>
             </CButton>
             <CButton
               color="danger"
@@ -84,8 +94,7 @@ const Employee = () => {
                 deleteUser(item._id);
               }}
             >
-              {/* DELETE */}
-              <CIcon icon={cilTrash}></CIcon>
+              <CIcon content={cilTrash}></CIcon>
             </CButton>
           </td>
         </>
@@ -96,21 +105,20 @@ const Employee = () => {
   return (
     <>
       <CCard>
-        <CCardHeader className="d-flex justify-content-between align-items-center">
+        <CCardHeader className="d-flex align-items-center">
           <EmployeeModel
             showModal={showModal}
             setShowModal={setShowModal}
-            emplyoeeList={emplyoeeList}
-            setUserData={setUserData}
-            init={init}
+            employee={employee}
+            setEmployee={setEmployee}
+            InitialEmployee={InitialEmployee}
+            init={()=>init()}
           />
         </CCardHeader>
         <EmployeeTable
-          init={init}
           fields={fields}
           data={userData}
           scopedSlots={scopedSlots}
-          onClickFunc={onRowClick}
         />
       </CCard>
     </>
