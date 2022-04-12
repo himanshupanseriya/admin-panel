@@ -11,3 +11,20 @@
 .sidebar-nav .accordion-button:focus{
   box-shadow: none;
 }
+.simplebar-wrapper .nav-item {
+  padding: 10px;
+  color: white;
+  transition: 0.3s;
+}
+.simplebar-wrapper .active .nav-item {
+  background-color: hsla(0,0%,100%,.05);
+}
+.simplebar-wrapper .accordion-header {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.simplebar-wrapper .accordion-header svg {
+  margin-right: 10px;
+}

@@ -1,3 +1,5 @@
+import { cilX } from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
 import {
   CCol,
   CInput,
@@ -85,8 +87,9 @@ const EmployeeModel = (props) => {
         alignment="center"
         size="md"
       >
-        <CModalHeader>
+        <CModalHeader className="d-flex align-items-center">
           <h3>Employee Details</h3>
+          <CIcon content={cilX} onClick={closeModel} style={{cursor:"pointer"}}></CIcon>
         </CModalHeader>
         <CModalBody>
           <CRow className="mb-2">
