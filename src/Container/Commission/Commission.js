@@ -27,10 +27,8 @@ const Commission = () => {
   }, []);
 
   const init = async () => {
-    debugger;
     let getTableData = await getEmployee();
     setEmpCommission(getTableData.data);
-    // console.log(getTableData.data);
   };
 
   const fields = [

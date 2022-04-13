@@ -15,12 +15,12 @@ const DefaultLayout = () => {
       <div
         className="wrapper d-flex flex-column min-vh-100 "
         style={{
-          paddingLeft: sidebarShow ? "256px" : "",
+          paddingLeft: sidebarShow ? "256px" : "10px",
           transition: "0.3s ease",
         }}
       >
         <Header />
-        <div className="body flex-grow-1 mt-4" style={{paddingTop : "55px"}}>
+        <div className="body flex-grow-1 mt-4" style={{paddingTop : "65px"}}>
           <AppContent />
         </div>
         <Footer/>
