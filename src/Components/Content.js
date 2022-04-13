@@ -27,13 +27,15 @@ const Content = () => {
                   path={route.path}
                   exact={route.exact}
                   name={route.name}
-                  // element={}
-                ><route.element />
-                  </Route>
+                >
+                  <route.element />
+                </Route>
               )
             )
           })}
-          <Route path="/" element={<Redirect to="/employee" replace />} />
+          <Route path="/" >
+            <Redirect to="/employee" replace />
+          </Route>
         </Switch>
       </Suspense>
     </CContainer>

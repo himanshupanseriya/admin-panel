@@ -12,7 +12,7 @@ import {
   CTextarea,
   CSelect,
 } from "@coreui/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { saveEmployee, updateEmployee } from "../../Services/EmployeeApi";
 import { RequiredField } from "../../Utils/CommonUtils";
 
@@ -85,7 +85,6 @@ const EmployeeModel = (props) => {
         show={showModal}
         onClose={() => closeModel()}
         alignment="center"
-        size="md"
       >
         <CModalHeader className="d-flex align-items-center">
           <h3>Employee Details</h3>

@@ -4,6 +4,7 @@ import Sidebar from "../Components/Sidebar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
 import AppContent from "../Components/Content";
+import Footer from "../Components/Footer";
 
 const DefaultLayout = () => {
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
@@ -19,9 +20,10 @@ const DefaultLayout = () => {
         }}
       >
         <Header />
-        <div className="body flex-grow-1 px-3 mt-4" style={{paddingTop : "55px"}}>
+        <div className="body flex-grow-1 mt-4" style={{paddingTop : "55px"}}>
           <AppContent />
         </div>
+        <Footer/>
       </div>
     </div>
   );
