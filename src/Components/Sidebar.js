@@ -42,7 +42,7 @@ const Sidebar = (props) => {
     <>
       <CSidebar
         position="fixed"
-        style={{ left: sidebarShow ? "0" : "-256px", transition: "0.3s" }}
+        style={{ left: sidebarShow ? "10px" : "-256px", transition: "0.3s" }}
       >
         <CSidebarBrand className="d-none d-md-flex">
           <CIcon content={cilDiamond} />
@@ -80,45 +80,27 @@ const Sidebar = (props) => {
                 </NavLink>
               </div>
             </div>
-            <NavLink to="/vendors" className="text-decoration-none">
-              <CNavItem to="/vendors">
-                <CIcon icon={cilPeople} />
-                Vendors
-              </CNavItem>
-            </NavLink>
             <div className="c-accordion-item bg-transparent">
               <div
                 className="c-accordion-header"
                 id="headingOne"
                 onClick={openSubMenu}
               >
-                <CIcon content={cilUser} />
-                Employee
+                <CIcon content={cilPeople} />
+                Venders
               </div>
               <div className="py-0 px-0 c-accordion-body hide-content">
-                <NavLink to="/employee" className="text-decoration-none">
-                  <CNavItem to="/employee">
+                <NavLink to="/vendors" className="text-decoration-none">
+                  <CNavItem to="/vendors">
                     <CIcon />
                     List
-                  </CNavItem>
-                </NavLink>
-                <NavLink to="/commission" className="text-decoration-none">
-                  <CNavItem to="/commission">
-                    <CIcon />
-                    Commission
-                  </CNavItem>
-                </NavLink>
-                <NavLink to="/salary" className="text-decoration-none">
-                  <CNavItem to="/salary">
-                    <CIcon />
-                    Salary
                   </CNavItem>
                 </NavLink>
               </div>
             </div>
             <NavLink to="/client" className="text-decoration-none">
               <CNavItem to="/client">
-                <CIcon icon={cilGraph} />
+                <CIcon content={cilGraph} />
                 Clients
               </CNavItem>
             </NavLink>

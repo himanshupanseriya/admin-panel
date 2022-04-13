@@ -84,7 +84,6 @@ const EmployeeModel = (props) => {
       <CModal
         show={showModal}
         onClose={() => closeModel()}
-        alignment="center"
       >
         <CModalHeader className="d-flex align-items-center">
           <h3>Employee Details</h3>
