@@ -9,6 +9,7 @@ import CIcon from "@coreui/icons-react";
 import { cilPencil, cilTrash, cilWindowRestore } from "@coreui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { employeeData } from "../../Redux/Actions/EmployeeAction";
+import WarningModel from "../../Components/WarningModel";
 
 const InitialEmployee = {
   fname: "",
@@ -29,6 +30,8 @@ const Employee = () => {
   const [userData, setUserData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [employee, setEmployee] = useState(InitialEmployee);
+  const [deleteModel, setDeleteModel] = useState(false);
+  const [employeeId, setEmployeeId] = useState(0);
 
   const init = () => {
     dispatch(employeeData()).then((res) => {
@@ -52,20 +55,20 @@ const Employee = () => {
     { key: "delete", label: "" },
   ];
 
-  const deleteUser = async (id) => {
-    if (!window.confirm("Are You Sure Want To Delete")) return;
-    await deleteEmployee(id);
-    init();
-  };
-
+  const sureWantDelete = async (sureToDelete) => {
+    if(sureToDelete){
+      await deleteEmployee(employeeId);
+      init();
+    }
+  }
   const scopedSlots = {
     status: (item) => {
       return (
         <td className="text-center">
-          {item.status == true ? (
-            <span className="badge bg-success rounded-pill">Active</span>
+          {item.status === true ? (
+            <span className="badge bg-success rounded-pill py-1 px-2 font-weight-normal">Active</span>
           ) : (
-            <span className="badge bg-danger rounded-pill">Inactive</span>
+            <span className="badge bg-danger rounded-pill py-1 px-2 font-weight-normal">Inactive</span>
           )}
         </td>
       );
@@ -93,7 +96,8 @@ const Employee = () => {
               shape="square"
               size="sm"
               onClick={() => {
-                deleteUser(item._id);
+                setDeleteModel(true);
+                setEmployeeId(item._id)
               }}
             >
               <CIcon content={cilTrash}></CIcon>
@@ -106,6 +110,7 @@ const Employee = () => {
 
   return (
     <>
+      <WarningModel deleteModel={deleteModel} setDeleteModel={setDeleteModel} sureWantDelete={sureWantDelete} />
       <CCard>
         <CCardHeader className="d-flex align-items-center">
           <EmployeeModel

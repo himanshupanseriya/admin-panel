@@ -1,12 +1,14 @@
-import { CFooter } from '@coreui/react'
-import React from 'react'
+import { CFooter } from "@coreui/react";
+import React from "react";
 
 function Footer() {
   return (
     <>
-			<CFooter><a>© 2022 All rights reserved</a></CFooter>
+      <CFooter className="text-center">
+        <a className="w-100">© 2022 All rights reserved</a>
+      </CFooter>
     </>
-  )
+  );
 }
 
-export default Footer
+export default Footer;
