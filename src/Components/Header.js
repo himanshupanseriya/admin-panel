@@ -13,7 +13,7 @@ const Header = () => {
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
   return (
     <>
-      <CHeader style={{ left: sidebarShow ? "256px" : "0", transition:"0.3s"}}>
+      <CHeader style={{ left: sidebarShow ? "266px" : "0px", transition:"0.3s"}}>
         <CContainer fluid className="d-flex align-items-center">
           <div
             className="ps-1 "

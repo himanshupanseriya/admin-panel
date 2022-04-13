@@ -9,8 +9,7 @@ import {
   CModalHeader,
   CRow,
   CLabel,
-  CTextarea,
-  CSelect,
+  CButton,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { cilCaretLeft, cilCaretRight } from "@coreui/icons";
@@ -50,30 +49,30 @@ const CommissionModel = (props) => {
 
   return (
     <>
-      <button className="btn btn-dark me-2" onClick={prevDay}>
+      <CButton  color="dark" className="me-2" variant="outline"  onClick={prevDay}>
         <CIcon content={cilCaretLeft} width={20} />
-      </button>
-      <input
-        className="form-control me-2"
-        //   className="dateInput"
+      </CButton>
+      <CInput
+        className=" me-2"
         type="date"
-        onChange={(e) => currentDate(e)}
+        onChange={currentDate}
         value={date}
         style={{
-          width: "12%",
+          width: "10%",
           textAlign: "center",
           color: "black",
         }}
       />
-      <button className="btn btn-dark me-2" onClick={nextDay}>
+      <CButton  color="dark" className="me-2" variant="outline" onClick={nextDay}>
         <CIcon content={cilCaretRight} width={20} />
-      </button>
-      <button
-        className="btn btn-primary my-2 ms-auto"
+      </CButton>
+      <CButton
+        color="primary"
+        className="my-2 ms-auto"
         onClick={() => onAddNewEmployee()}
       >
         Add New
-      </button>
+      </CButton>
       <CModal show={showModal} alignment="center" size="md">
         <CModalHeader>
           <h3>Employee Commission</h3>

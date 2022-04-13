@@ -18,6 +18,8 @@
 }
 .sidebar-wrapper .active .nav-item {
   background-color: hsla(0,0%,100%,.05);
+  margin: 0 10px;
+  border-radius: var(--radius);
 }
 .sidebar-wrapper .c-accordion-header {
   padding: 10px;
@@ -25,7 +27,8 @@
   align-items: center;
 }
 
-.sidebar-wrapper .c-accordion-header svg {
+.sidebar-wrapper .c-accordion-header svg ,
+.sidebar-wrapper .nav-item svg {
   margin-right: 10px;
 }
 .hide-content {
@@ -36,6 +39,7 @@
 .e-accordion-item{
   transition: 0.3s;
   background: rgb(0 0 0 / 20%) !important;
+  padding-bottom: 10px;
 }
 .c-accordion-header::after{
   content: "";
