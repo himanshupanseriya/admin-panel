@@ -1,12 +1,14 @@
 import { CCard, CCardHeader } from "@coreui/react";
 import React, { useEffect, useState } from "react";
-import { getEmployee } from "../../Services/EmployeeApi";
+import { getEmployeesData } from "../../Services/EmployeeApi";
 import EmployeeModel from "./EmployeeModel";
 import EmployeeTable from "./EmployeeTable";
 import { CButton } from "@coreui/react";
 import { deleteEmployee } from "../../Services/EmployeeApi";
 import CIcon from "@coreui/icons-react";
 import { cilPencil, cilTrash, cilWindowRestore } from "@coreui/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { employeeData } from "../../Redux/Actions/EmployeeAction";
 
 const InitialEmployee = {
   fname: "",
@@ -20,16 +22,20 @@ const InitialEmployee = {
 };
 
 const Employee = () => {
+  const dispatch = useDispatch();
+
+  // const oldEmployee = useSelector((state) => state.employeeReducer.getData);
+
   const [userData, setUserData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [employee, setEmployee] = useState(InitialEmployee);
 
-  
-  const init = async () => {
-    let getTableData = await getEmployee();
-    setUserData(getTableData.data);
+  const init = () => {
+    dispatch(employeeData()).then((res) => {
+      setUserData(res.payload);
+    });
   };
-  
+
   useEffect(() => {
     init();
   }, []);
@@ -47,7 +53,7 @@ const Employee = () => {
   ];
 
   const deleteUser = async (id) => {
-    if(!window.confirm("Are You Sure Want To Delete")) return
+    if (!window.confirm("Are You Sure Want To Delete")) return;
     await deleteEmployee(id);
     init();
   };
@@ -57,13 +63,9 @@ const Employee = () => {
       return (
         <td className="text-center">
           {item.status == true ? (
-            <span className="badge bg-success rounded-pill">
-              Active
-            </span>
+            <span className="badge bg-success rounded-pill">Active</span>
           ) : (
-            <span className="badge bg-danger rounded-pill">
-              Inactive
-            </span>
+            <span className="badge bg-danger rounded-pill">Inactive</span>
           )}
         </td>
       );
@@ -112,7 +114,7 @@ const Employee = () => {
             employee={employee}
             setEmployee={setEmployee}
             InitialEmployee={InitialEmployee}
-            init={()=>init()}
+            init={() => init()}
           />
         </CCardHeader>
         <EmployeeTable
