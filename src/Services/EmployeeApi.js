@@ -1,6 +1,6 @@
 import secureAxios from "./secureAxios";
 
-export const getEmployee = async () => {
+export const getEmployeesData = async () => {
   try {
     let res = await secureAxios({
       url: "/employ/all",

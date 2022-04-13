@@ -1,12 +1,14 @@
 import { CCard, CCardHeader } from "@coreui/react";
 import React, { useEffect, useState } from "react";
-import { getEmployee } from "../../Services/EmployeeApi";
+import { getEmployeesData } from "../../Services/EmployeeApi";
 import EmployeeModel from "./EmployeeModel";
 import EmployeeTable from "./EmployeeTable";
 import { CButton } from "@coreui/react";
 import { deleteEmployee } from "../../Services/EmployeeApi";
 import CIcon from "@coreui/icons-react";
 import { cilPencil, cilTrash, cilWindowRestore } from "@coreui/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { employeeData } from "../../Redux/Actions/EmployeeAction";
 import WarningModel from "../../Components/WarningModel";
 
 const InitialEmployee = {
@@ -21,15 +23,20 @@ const InitialEmployee = {
 };
 
 const Employee = () => {
+  const dispatch = useDispatch();
+
+  // const oldEmployee = useSelector((state) => state.employeeReducer.getData);
+
   const [userData, setUserData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [employee, setEmployee] = useState(InitialEmployee);
   const [deleteModel, setDeleteModel] = useState(false);
   const [employeeId, setEmployeeId] = useState(0);
 
-  const init = async () => {
-    let getTableData = await getEmployee();
-    setUserData(getTableData.data);
+  const init = () => {
+    dispatch(employeeData()).then((res) => {
+      setUserData(res.payload);
+    });
   };
 
   useEffect(() => {
