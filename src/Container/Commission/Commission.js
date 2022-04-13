@@ -5,7 +5,7 @@ import { cilChevronLeft, cilChevronRight } from "@coreui/icons";
 import CommissionModel from "./CommissionModel";
 import CommissionTable from "./CommissionTable";
 import "../../Asset/css/CommissionModel.css";
-import { getEmployee } from "../../Services/CommissionApi";
+import { getEmployeesData } from "../../Services/CommissionApi";
 
 const InitialEmployee = {
   fname: "",
