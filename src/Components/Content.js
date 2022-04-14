@@ -1,6 +1,12 @@
-import React, { Suspense, useEffect } from 'react'
-import { BrowserRouter as Routes, Redirect, Route, Switch, useLocation } from 'react-router-dom'
-import { CContainer, CSpinner } from '@coreui/react'
+import React, { Suspense, useEffect } from "react";
+import {
+  BrowserRouter as Routes,
+  Redirect,
+  Route,
+  Switch,
+  useLocation,
+} from "react-router-dom";
+import { CContainer, CSpinner } from "@coreui/react";
 
 // routes config
 import contentRoutes from '../routes'
@@ -12,10 +18,10 @@ const Content = () => {
   const location = useLocation()
   useEffect(()=>{
     let pathName = location.pathname;
-    pathName = pathName.substring(1)
+    pathName = pathName.substring(1);
     let first = pathName.charAt(0);
     let upper = first.toUpperCase();
-    pathName = pathName.substring(1)
+    pathName = pathName.substring(1);
     document.title = `${upper + pathName}`;
   },[location.pathname])
   
@@ -42,15 +48,15 @@ const Content = () => {
                   <route.element />
                 </Route>
               )
-            )
+            );
           })}
-          <Route path="/" >
+          <Route path="/">
             <Redirect to="/employee" replace />
           </Route>
         </Switch>
       </Suspense>
     </CContainer>
-  )
-}
+  );
+};
 
-export default React.memo(Content)
+export default React.memo(Content);

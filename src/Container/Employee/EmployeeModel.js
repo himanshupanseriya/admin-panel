@@ -15,6 +15,11 @@ import {
 import React, { useState } from "react";
 import { saveEmployee, updateEmployee } from "../../Services/EmployeeApi";
 import { RequiredField } from "../../Utils/CommonUtils";
+import {
+  employeeDataUpdate,
+  employeeDataSave,
+} from "../../Redux/Actions/EmployeeAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const EmployeeModel = (props) => {
   const {
@@ -26,6 +31,7 @@ const EmployeeModel = (props) => {
     InitialEmployee,
   } = props;
   const [checkRequired, setCheckRequired] = useState(false);
+  const dispatch = useDispatch();
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -42,6 +48,18 @@ const EmployeeModel = (props) => {
         [name]: value,
       });
     }
+  };
+
+  const useEmployeeData = useSelector(
+    (state) => state.employeeReducer.employeeData
+  );
+
+  const dispatchSaveEmployee = (data) => {
+    dispatch(employeeDataSave(data));
+  };
+
+  const dispatchUpdateEmployee = (id, data) => {
+    dispatch(employeeDataUpdate(id, data));
   };
 
   const closeModel = () => {
@@ -62,9 +80,10 @@ const EmployeeModel = (props) => {
     });
     if (require) {
       employee._id
-        ? await updateEmployee(employee._id, employee)
-        : await saveEmployee(employee);
-      init();
+        ? dispatchUpdateEmployee(employee)
+        : // await updateEmployee(employee._id, employee)
+          // await saveEmployee(employee);
+          dispatchSaveEmployee(employee);
       closeModel();
     }
   };
@@ -81,13 +100,14 @@ const EmployeeModel = (props) => {
       >
         Add New
       </button>
-      <CModal
-        show={showModal}
-        onClose={() => closeModel()}
-      >
+      <CModal show={showModal} onClose={() => closeModel()}>
         <CModalHeader className="d-flex align-items-center">
           <h3>Employee Details</h3>
-          <CIcon content={cilX} onClick={closeModel} style={{cursor:"pointer"}}></CIcon>
+          <CIcon
+            content={cilX}
+            onClick={closeModel}
+            style={{ cursor: "pointer" }}
+          ></CIcon>
         </CModalHeader>
         <CModalBody>
           <CRow className="mb-2">
@@ -269,14 +289,14 @@ const EmployeeModel = (props) => {
         <CModalFooter>
           <button
             className="btn btn-danger"
-            style={{ width: 100 ,color:"White"}}
+            style={{ width: 100, color: "White" }}
             onClick={closeModel}
           >
             Cancel
           </button>
           <button
             className="btn btn-success"
-            style={{ width: 100 ,color:"White"}}
+            style={{ width: 100, color: "White" }}
             onClick={onSaveEmployee}
           >
             Save

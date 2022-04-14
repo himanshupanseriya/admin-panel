@@ -1,4 +1,5 @@
-import React  from 'react';
+import React from "react";
+
 export const RequiredField = () => {
   return (
     <p
@@ -12,4 +13,19 @@ export const RequiredField = () => {
       This field is required
     </p>
   );
+};
+
+export const deleteById = ([...array], id) => {
+  return array.filter((e) => e._id !== id);
+};
+
+export const addData = ([...array], data) => {
+  array.push(data);
+  return array;
+};
+
+export const editData = ([...array], data) => {
+  let index = array.findIndex((e) => e._id === data._id);
+  array.splice(index, 1, data);
+  return array;
 };

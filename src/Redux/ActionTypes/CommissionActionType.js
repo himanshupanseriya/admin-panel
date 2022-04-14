@@ -1,1 +1,1 @@
-console.log("hello");
+export const GET_COMMISSION_DATA = "GET_COMMISSION_DATA"

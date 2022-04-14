@@ -5,7 +5,11 @@ import { cilChevronLeft, cilChevronRight } from "@coreui/icons";
 import CommissionModel from "./CommissionModel";
 import CommissionTable from "./CommissionTable";
 import "../../Asset/css/CommissionModel.css";
-import { getEmployeesData } from "../../Services/CommissionApi";
+import { CButton } from "@coreui/react";
+import { cilPencil, cilTrash, cilWindowRestore } from "@coreui/icons";
+import { getCommissionData } from "../../Services/CommissionApi";
+import { useDispatch, useSelector } from "react-redux";
+import { commissionDate } from "../../Redux/Actions/CommissionAction";
 
 const InitialEmployee = {
   fname: "",
@@ -18,6 +22,7 @@ const InitialEmployee = {
   status: "",
 };
 const Commission = () => {
+  const dispatch = useDispatch();
   const [empCommission, setEmpCommission] = useState([]);
   const [emvCommissionAdd, setEmvCommissionAdd] = useState(InitialEmployee);
   const [showModal, setShowModal] = useState(false);
@@ -26,9 +31,15 @@ const Commission = () => {
     init();
   }, []);
 
+  const useCommissionData = useSelector(
+    (state) => state.commissionReducer.commissiomData
+  );
+
   const init = async () => {
-    let getTableData = await getEmployeesData();
-    setEmpCommission(getTableData.data);
+    dispatch(commissionDate());
+
+    // let getTableData = await getCommissionData();
+    // setEmpCommission(getTableData.data);
   };
 
   const fields = [
@@ -38,7 +49,44 @@ const Commission = () => {
     { key: "mobile", label: "Mobile" },
     { key: "commission", label: "Commission" },
     { key: "tich", label: "Tich" },
+    { key: "delete", label: "" },
   ];
+
+  const scopedSlots = {
+    delete: (item) => {
+      return (
+        <>
+          <td className="py-2 text-center">
+            <CButton
+              color="warning"
+              variant="outline"
+              shape="square"
+              size="sm"
+              className="me-2"
+              onClick={() => {
+                // setEmployee(item);
+                // setShowModal(true);
+              }}
+            >
+              <CIcon content={cilPencil}></CIcon>
+            </CButton>
+            <CButton
+              color="danger"
+              variant="outline"
+              shape="square"
+              size="sm"
+              onClick={() => {
+                // setDeleteModel(true);
+                // setEmployeeId(item._id);
+              }}
+            >
+              <CIcon content={cilTrash}></CIcon>
+            </CButton>
+          </td>
+        </>
+      );
+    },
+  };
 
   return (
     <>
@@ -46,7 +94,11 @@ const Commission = () => {
         <CCardHeader className="d-flex align-items-center">
           <CommissionModel showModal={showModal} setShowModal={setShowModal} />
         </CCardHeader>
-        <CommissionTable fields={fields} data={empCommission} />
+        <CommissionTable
+          fields={fields}
+          data={useCommissionData}
+          scopedSlots={scopedSlots}
+        />
       </CCard>
     </>
   );
