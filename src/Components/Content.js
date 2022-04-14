@@ -4,8 +4,11 @@ import { CContainer, CSpinner } from '@coreui/react'
 
 // routes config
 import contentRoutes from '../routes'
+import { employeeData } from '../Redux/Actions/EmployeeAction'
+import { useDispatch } from 'react-redux'
 
 const Content = () => {
+  const dispatch = useDispatch();
   const location = useLocation()
   useEffect(()=>{
     let pathName = location.pathname;
@@ -15,6 +18,14 @@ const Content = () => {
     pathName = pathName.substring(1)
     document.title = `${upper + pathName}`;
   },[location.pathname])
+  
+  const init = () => {
+    dispatch(employeeData());
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
   return (
     <CContainer>
       <Suspense fallback={<CSpinner color="primary" />}>
