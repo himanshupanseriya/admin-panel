@@ -8,8 +8,13 @@ import { deleteEmployee } from "../../Services/EmployeeApi";
 import CIcon from "@coreui/icons-react";
 import { cilPencil, cilTrash, cilWindowRestore } from "@coreui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { employeeData } from "../../Redux/Actions/EmployeeAction";
+import {
+  employeeData,
+  employeeDataDelete,
+} from "../../Redux/Actions/EmployeeAction";
 import WarningModel from "../../Components/WarningModel";
+import { DELETE_EMPLOYEE_DATA } from "../../Redux/ActionTypes/EmployeeActionType";
+import employeeReducer from "../../Redux/Reducers/EmployeeReducer";
 
 const InitialEmployee = {
   fname: "",
@@ -25,23 +30,16 @@ const InitialEmployee = {
 const Employee = () => {
   const dispatch = useDispatch();
 
-  // const oldEmployee = useSelector((state) => state.employeeReducer.getData);
+  const useEmployeeData = useSelector(
+    (state) => state.employeeReducer.employeeData
+  );
 
-  const [userData, setUserData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [employee, setEmployee] = useState(InitialEmployee);
   const [deleteModel, setDeleteModel] = useState(false);
   const [employeeId, setEmployeeId] = useState(0);
 
-  const init = () => {
-    dispatch(employeeData()).then((res) => {
-      setUserData(res.payload);
-    });
-  };
 
-  useEffect(() => {
-    init();
-  }, []);
 
   const fields = [
     { key: "fname", label: "First Name" },
@@ -56,19 +54,23 @@ const Employee = () => {
   ];
 
   const sureWantDelete = async (sureToDelete) => {
-    if(sureToDelete){
-      await deleteEmployee(employeeId);
-      init();
+    if (sureToDelete) {
+      dispatch(employeeDataDelete(employeeId));
     }
-  }
+  };
+  
   const scopedSlots = {
     status: (item) => {
       return (
         <td className="text-center">
           {item.status === true ? (
-            <span className="badge bg-success rounded-pill py-1 px-2 font-weight-normal">Active</span>
+            <span className="badge bg-success rounded-pill py-1 px-2 font-weight-normal">
+              Active
+            </span>
           ) : (
-            <span className="badge bg-danger rounded-pill py-1 px-2 font-weight-normal">Inactive</span>
+            <span className="badge bg-danger rounded-pill py-1 px-2 font-weight-normal">
+              Inactive
+            </span>
           )}
         </td>
       );
@@ -97,7 +99,7 @@ const Employee = () => {
               size="sm"
               onClick={() => {
                 setDeleteModel(true);
-                setEmployeeId(item._id)
+                setEmployeeId(item._id);
               }}
             >
               <CIcon content={cilTrash}></CIcon>
@@ -110,7 +112,11 @@ const Employee = () => {
 
   return (
     <>
-      <WarningModel deleteModel={deleteModel} setDeleteModel={setDeleteModel} sureWantDelete={sureWantDelete} />
+      <WarningModel
+        deleteModel={deleteModel}
+        setDeleteModel={setDeleteModel}
+        sureWantDelete={sureWantDelete}
+      />
       <CCard>
         <CCardHeader className="d-flex align-items-center">
           <EmployeeModel
@@ -119,12 +125,11 @@ const Employee = () => {
             employee={employee}
             setEmployee={setEmployee}
             InitialEmployee={InitialEmployee}
-            init={() => init()}
           />
         </CCardHeader>
         <EmployeeTable
           fields={fields}
-          data={userData}
+          data={useEmployeeData}
           scopedSlots={scopedSlots}
         />
       </CCard>

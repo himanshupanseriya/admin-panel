@@ -1,5 +1,5 @@
 import secureAxios from "./secureAxios";
-export const getEmployeesData = async () => {
+export const getCommissionData = async () => {
   try {
     let res = await secureAxios({
       url: "commission/all",

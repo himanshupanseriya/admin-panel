@@ -2,7 +2,8 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
 import rootReducer from "./Redux/Reducer";
 
-const store = createStore(
+const 
+store = createStore(
   rootReducer,
   compose(
     applyMiddleware(thunkMiddleware),
