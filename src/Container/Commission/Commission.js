@@ -27,7 +27,7 @@ const Commission = () => {
   }, []);
 
   const init = async () => {
-    let getTableData = await getEmployee();
+    let getTableData = await getEmployeesData();
     setEmpCommission(getTableData.data);
   };
 

@@ -58,7 +58,7 @@ const CommissionModel = (props) => {
         onChange={currentDate}
         value={date}
         style={{
-          width: "10%",
+          width: "auto",
           textAlign: "center",
           color: "black",
         }}

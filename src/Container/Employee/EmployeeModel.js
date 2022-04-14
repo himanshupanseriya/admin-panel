@@ -95,6 +95,9 @@ const EmployeeModel = (props) => {
               <CLabel htmlFor="fname">
                 First Name : <span className="text-danger">*</span>
               </CLabel>
+              {checkRequired && (!employee.fname || employee.fname === "-1") ? (
+                <RequiredField />
+              ) : null}
             </CCol>
             <CCol sm="8">
               <CInput
@@ -105,9 +108,6 @@ const EmployeeModel = (props) => {
                 placeholder="Enter First Name"
                 onChange={(e) => handleInputChange(e)}
               />
-              {checkRequired && (!employee.fname || employee.fname === "-1") ? (
-                <RequiredField />
-              ) : null}
             </CCol>
           </CRow>
           <CRow className="mb-2">
@@ -115,6 +115,9 @@ const EmployeeModel = (props) => {
               <CLabel htmlFor="lname">
                 Last Name:<span className="text-danger">*</span>
               </CLabel>
+              {checkRequired && (!employee.lname || employee.lname === "-1") ? (
+                <RequiredField />
+              ) : null}
             </CCol>
             <CCol sm="8">
               <CInput
@@ -125,9 +128,6 @@ const EmployeeModel = (props) => {
                 placeholder="Enter Last Name"
                 onChange={(e) => handleInputChange(e)}
               />
-              {checkRequired && (!employee.lname || employee.lname === "-1") ? (
-                <RequiredField />
-              ) : null}
             </CCol>
           </CRow>
           <CRow className="mb-2">
@@ -135,6 +135,10 @@ const EmployeeModel = (props) => {
               <CLabel htmlFor="mobile">
                 Mobile No:<span className="text-danger">*</span>
               </CLabel>
+              {checkRequired &&
+              (!employee.mobile || employee.mobile === "-1") ? (
+                <RequiredField />
+              ) : null}
             </CCol>
             <CCol sm="8">
               <CInput
@@ -146,10 +150,6 @@ const EmployeeModel = (props) => {
                 placeholder="Enter Mobile No."
                 onChange={(e) => handleInputChange(e)}
               />
-              {checkRequired &&
-              (!employee.mobile || employee.mobile === "-1") ? (
-                <RequiredField />
-              ) : null}
             </CCol>
           </CRow>
           <CRow className="mb-2">
@@ -157,6 +157,9 @@ const EmployeeModel = (props) => {
               <CLabel htmlFor="email">
                 Email Id:<span className="text-danger">*</span>
               </CLabel>
+              {checkRequired && (!employee.email || employee.email === "-1") ? (
+                <RequiredField />
+              ) : null}
             </CCol>
             <CCol sm="8">
               <CInput
@@ -168,9 +171,6 @@ const EmployeeModel = (props) => {
                 placeholder="Enter Email Id	"
                 onChange={(e) => handleInputChange(e)}
               />
-              {checkRequired && (!employee.email || employee.email === "-1") ? (
-                <RequiredField />
-              ) : null}
             </CCol>
           </CRow>
           <CRow className="mb-2">
@@ -178,6 +178,9 @@ const EmployeeModel = (props) => {
               <CLabel htmlFor="dob">
                 Date Of Birth : <span className="text-danger">*</span>
               </CLabel>
+              {checkRequired && (!employee.dob || employee.dob === "-1") ? (
+                <RequiredField />
+              ) : null}
             </CCol>
             <CCol sm="8">
               <CInput
@@ -189,9 +192,6 @@ const EmployeeModel = (props) => {
                 placeholder="Enter Date Of Birth"
                 onChange={(e) => handleInputChange(e)}
               />
-              {checkRequired && (!employee.dob || employee.dob === "-1") ? (
-                <RequiredField />
-              ) : null}
             </CCol>
           </CRow>
           <CRow className="mb-2">
@@ -199,6 +199,10 @@ const EmployeeModel = (props) => {
               <CLabel htmlFor="salary">
                 Salary : <span className="text-danger">*</span>
               </CLabel>
+              {checkRequired &&
+              (!employee.salary || employee.salary === "-1") ? (
+                <RequiredField />
+              ) : null}
             </CCol>
             <CCol sm="8">
               <CInput
@@ -210,10 +214,6 @@ const EmployeeModel = (props) => {
                 placeholder="Enter Salary"
                 onChange={(e) => handleInputChange(e)}
               />
-              {checkRequired &&
-              (!employee.salary || employee.salary === "-1") ? (
-                <RequiredField />
-              ) : null}
             </CCol>
           </CRow>
           <CRow className="mb-2">
@@ -221,6 +221,10 @@ const EmployeeModel = (props) => {
               <CLabel htmlFor="status">
                 Status<span className="text-danger">*</span>
               </CLabel>
+              {checkRequired &&
+              (!employee.status || employee.status === "-1") ? (
+                <RequiredField />
+              ) : null}
             </CCol>
             <CCol sm="8">
               <CSelect
@@ -237,10 +241,6 @@ const EmployeeModel = (props) => {
                 <option value={true}>Active</option>
                 <option value={false}>Inactive</option>
               </CSelect>
-              {checkRequired &&
-              (!employee.status || employee.status === "-1") ? (
-                <RequiredField />
-              ) : null}
             </CCol>
           </CRow>
           <CRow>
@@ -248,6 +248,10 @@ const EmployeeModel = (props) => {
               <CLabel htmlFor="address">
                 Address<span className="text-danger">*</span>
               </CLabel>
+              {checkRequired &&
+              (!employee.address || employee.address === "-1") ? (
+                <RequiredField />
+              ) : null}
             </CCol>
             <CCol sm="8">
               <CTextarea
@@ -259,10 +263,6 @@ const EmployeeModel = (props) => {
                 placeholder="Enter Address"
                 onChange={(e) => handleInputChange(e)}
               />
-              {checkRequired &&
-              (!employee.address || employee.address === "-1") ? (
-                <RequiredField />
-              ) : null}
             </CCol>
           </CRow>
         </CModalBody>

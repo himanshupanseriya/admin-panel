@@ -104,7 +104,9 @@ input[type="button"]:hover,
 .table-bordered thead th,
 .table-bordered thead td,
 .table-bordered > :not(caption) > *,
-.modal-content {
+.modal-content,
+.modal-header,
+.modal-footer {
   border: none;
 }
 .form-control {
@@ -114,4 +116,7 @@ input[type="button"]:hover,
 }
 .page-item.active .page-link{
   background: linear-gradient(16deg, #191e38 0%, #5c66ad 100%) !important;
+}
+label{
+  margin: 0;
 }
