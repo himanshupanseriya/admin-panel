@@ -3,8 +3,21 @@ import secureAxios from "./secureAxios";
 export const getEmployeesData = async () => {
   try {
     let res = await secureAxios({
-      url: "/employ/all",
+      url: "/employee/all",
       method: "get",
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const searchEmployeesData = async (data) => {
+  try {
+    let res = await secureAxios({
+      url: "/employee/search",
+      method: "post",
+      data: data,
     });
     return res.data;
   } catch (error) {
@@ -15,7 +28,7 @@ export const getEmployeesData = async () => {
 export const saveEmployee = async (data) => {
   try {
     let res = await secureAxios({
-      url: "/employ/add",
+      url: "/employee/add",
       data: data,
       method: "post",
     });
@@ -28,7 +41,7 @@ export const saveEmployee = async (data) => {
 export const deleteEmployee = async (id) => {
   try {
     let res = await secureAxios({
-      url: `/employ/delete/${id}`,
+      url: `/employee/delete/${id}`,
       method: "delete",
     });
     return res.data;
@@ -40,7 +53,7 @@ export const deleteEmployee = async (id) => {
 export const updateEmployee = async (id, data) => {
   try {
     let res = await secureAxios({
-      url: `/employ/update/${id}`,
+      url: `/employee/update/${id}`,
       data: data,
       method: "put",
     });

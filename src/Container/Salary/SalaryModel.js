@@ -118,8 +118,6 @@ function SalaryModel(props) {
     });
     if (require) {
       let response = await saveEmployeeSalary(salary)
-      console.log(response);
-      console.log(salary);
       closeModel();
     }
   };
