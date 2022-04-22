@@ -5,7 +5,7 @@ export const saveEmployeeSalary = async (data) => {
     let response = await secureAxios({
       url: "salary/add",
 			data : data,
-      method: "add",
+      method: "post",
     });
     return response.data;
   } catch (error) {
