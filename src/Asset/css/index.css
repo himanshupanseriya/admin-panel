@@ -8,10 +8,9 @@
   --btn-radius: 5px;
   --border-default: 1px solid #636f83;
 }
+
 .btn-close {
-  background: transparent
-    url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23000%27%3e%3cpath d=%27M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z%27/%3e%3c/svg%3e")
-    center/1em auto no-repeat;
+  background: transparent url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23000%27%3e%3cpath d=%27M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z%27/%3e%3c/svg%3e") center/1em auto no-repeat;
 }
 
 button,
@@ -22,101 +21,151 @@ input[type="button"],
   box-shadow: var(--shadow);
   /* box-shadow: 0 5px 10px -3px rgb(0 0 0 / 23%), 0 6px 10px -5px rgb(0 0 0 / 25%); */
 }
+
 button:hover,
 input[type="button"]:hover,
 .btn:hover {
   box-shadow: 0 5px 15px -3px rgb(0 0 0 / 23%), 0 6px 15px -5px rgb(0 0 0 / 25%);
 }
+
 .btn-primary,
 .btn-outline-primary:hover {
   background-image: linear-gradient(16deg, #191e38 0%, #5c66ad 100%) !important;
 }
+
 .btn-danger,
 .btn-outline-danger:hover {
-  background-image: linear-gradient(
-    16deg,
-    #580f0fd6 0%,
-    #e55353 100%
-  ) !important;
+  background-image: linear-gradient(16deg,
+      #580f0fd6 0%,
+      #e55353 100%) !important;
 }
+
 .btn-success,
 .btn-outline-success:hover {
-  background-image: linear-gradient(
-    16deg,
-    #0f4c24cf 0%,
-    #2eb85c 100%
-  ) !important;
+  background-image: linear-gradient(16deg,
+      #0f4c24cf 0%,
+      #2eb85c 100%) !important;
 }
+
 .btn-warning,
 .btn-outline-warning:hover {
-  background-image: linear-gradient(
-    16deg,
-    #957126de 0%,
-    #f9b115 100%
-  ) !important;
-  color:white;
+  background-image: linear-gradient(16deg,
+      #957126de 0%,
+      #f9b115 100%) !important;
+  color: white;
 }
-.btn-warning:hover{
-  color:white;
+
+.btn-warning:hover {
+  color: white;
 }
+
 .btn-info,
 .btn-outline-info:hover {
-  background-image: linear-gradient(
-    16deg,
-    #145291d9 0%,
-    #3399ff 100%
-  ) !important;
+  background-image: linear-gradient(16deg,
+      #145291d9 0%,
+      #3399ff 100%) !important;
 }
+
 .btn-dark,
 .btn-outline-dark:hover {
-  background-image: linear-gradient(
-    16deg,
-    #44484e 0%,
-    #636f83 100%
-  ) !important;
+  background-image: linear-gradient(16deg,
+      #44484e 0%,
+      #636f83 100%) !important;
 }
+
 .card {
   box-shadow: var(--shadow);
   border-radius: var(--radius);
   border: none;
 }
+
 .card .card-header {
   border-radius: var(--top-radius);
 }
+
 .c-sidebar {
   /* background: linear-gradient(195deg, rgb(66, 66, 74), rgb(25, 25, 25)); */
-  background:linear-gradient(46deg, #000000 0%, #303452 100%) !important;
+  background: linear-gradient(46deg, #000000 0%, #303452 100%) !important;
   margin: 10px;
   border-radius: var(--radius);
 }
+
 .c-sidebar-brand {
   border-radius: var(--top-radius);
 }
+
 .c-header.c-header-fixed {
   border-radius: var(--radius);
   margin: 10px;
   box-shadow: var(--shadow);
 }
+
+.table {
+  cursor: grab;
+  overflow: auto;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
 .table-bordered th,
 .table-bordered td {
   border-width: 0px 0px 1px 0px;
 }
+
 .table-bordered thead th,
 .table-bordered thead td,
-.table-bordered > :not(caption) > *,
+.table-bordered> :not(caption)>*,
 .modal-content,
 .modal-header,
 .modal-footer {
   border: none;
+
 }
+
+.table-bordered thead th {
+  white-space: nowrap;
+}
+
+.table-bordered td {
+  vertical-align: middle;
+}
+
+.table-bordered td,
+.table-bordered thead th {
+  text-align: center;
+  min-width: 120px;
+  /* border: 0.1px solid black; */
+}
+
+.table-responsive {
+  margin-bottom: 10px;
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 10px;
+}
+
+
+.table-responsive::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
 .form-control {
   box-shadow: var(--shadow);
   border-radius: var(--btn-radius);
   border: var(--border-default);
 }
-.page-item.active .page-link{
+
+.page-item.active .page-link {
   background: linear-gradient(16deg, #191e38 0%, #5c66ad 100%) !important;
 }
-label{
+
+label {
   margin: 0;
 }

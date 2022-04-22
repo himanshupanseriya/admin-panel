@@ -10,36 +10,43 @@ import { cilPencil, cilTrash, cilWindowRestore } from "@coreui/icons";
 import { getCommissionData } from "../../Services/CommissionApi";
 import { useDispatch, useSelector } from "react-redux";
 import { commissionDate } from "../../Redux/Actions/CommissionAction";
-
+import WarningModel from "../../Components/WarningModel";
+import { commissionDataDelete } from "../../Redux/Actions/CommissionAction";
+import moment from "moment";
 const InitialEmployee = {
+  employee_id: "",
   fname: "",
   lname: "",
-  mobile: "",
   email: "",
-  dob: "",
-  salary: "",
-  address: "",
-  status: "",
+  mobile: "",
+  commission: "",
+  tich: "",
+  commission_date: moment().format("YYYY-MM-DD"),
 };
 const Commission = () => {
   const dispatch = useDispatch();
   const [empCommission, setEmpCommission] = useState([]);
+  const [deleteModel, setDeleteModel] = useState(false);
   const [emvCommissionAdd, setEmvCommissionAdd] = useState(InitialEmployee);
   const [showModal, setShowModal] = useState(false);
+  const [commissionId, setCommissionId] = useState(0);
 
   useEffect(() => {
     init();
   }, []);
 
   const useCommissionData = useSelector(
-    (state) => state.commissionReducer.commissiomData
+    (state) => state.commissionReducer.commissionData
   );
 
   const init = async () => {
     dispatch(commissionDate());
+  };
 
-    // let getTableData = await getCommissionData();
-    // setEmpCommission(getTableData.data);
+  const sureWantDelete = (sureToDelete) => {
+    if (sureToDelete) {
+      dispatch(commissionDataDelete(commissionId));
+    }
   };
 
   const fields = [
@@ -64,8 +71,8 @@ const Commission = () => {
               size="sm"
               className="me-2"
               onClick={() => {
-                // setEmployee(item);
-                // setShowModal(true);
+                setEmvCommissionAdd(item);
+                setShowModal(true);
               }}
             >
               <CIcon content={cilPencil}></CIcon>
@@ -76,8 +83,8 @@ const Commission = () => {
               shape="square"
               size="sm"
               onClick={() => {
-                // setDeleteModel(true);
-                // setEmployeeId(item._id);
+                setDeleteModel(true);
+                setCommissionId(item._id);
               }}
             >
               <CIcon content={cilTrash}></CIcon>
@@ -90,9 +97,19 @@ const Commission = () => {
 
   return (
     <>
+      <WarningModel
+        deleteModel={deleteModel}
+        setDeleteModel={setDeleteModel}
+        sureWantDelete={sureWantDelete}
+      />
       <CCard>
         <CCardHeader className="d-flex align-items-center">
-          <CommissionModel showModal={showModal} setShowModal={setShowModal} />
+          <CommissionModel
+            showModal={showModal}
+            setShowModal={setShowModal}
+            setEmvCommissionAdd={setEmvCommissionAdd}
+            emvCommission={emvCommissionAdd}
+          />
         </CCardHeader>
         <CommissionTable
           fields={fields}

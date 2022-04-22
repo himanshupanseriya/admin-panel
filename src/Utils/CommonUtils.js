@@ -7,7 +7,7 @@ export const RequiredField = () => {
       style={{
         color: "red",
         marginBottom: 0,
-        fontSize: 9,
+        fontSize: 10,
       }}
     >
       This field is required
