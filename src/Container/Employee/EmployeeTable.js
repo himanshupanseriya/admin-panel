@@ -1,30 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   CCardBody,
   CCol,
   CInput,
-  CModal,
-  CModalBody,
-  CModalFooter,
-  CModalHeader,
   CRow,
   CLabel,
-  CTextarea,
-  CInputFile,
   CInputCheckbox,
-  CSelect,
 } from "@coreui/react";
 import CDataTable from "../../Components/CDataTable";
 import CIcon from "@coreui/icons-react";
-import {
-  cilDiamond,
-  cilPeople,
-  cilDollar,
-  cilGraph,
-  cilUser,
-  cilCaretBottom,
-  cilSearch,
-} from "@coreui/icons";
+import { cilSearch } from "@coreui/icons";
 import { RequiredField } from "../../Utils/CommonUtils";
 import moment from "moment";
 import { searchEmployeesData } from "../../Services/EmployeeApi";
@@ -41,23 +26,13 @@ const EmployeeTable = (props) => {
     showAddForm,
     setGetData,
     setSearchDataObj,
+    searchDataObj,
   } = props;
-
-  const Initialfiler = {
-    from_date: "",
-    to_date: "",
-    status_selected: false,
-    status_processing: false,
-    status_in_trial: false,
-    status_pending: false,
-    status_rejected: false,
-  };
 
   const maxDate = {
     max_date: moment().format("YYYY-MM-DD"),
   };
 
-  const [filterData, setFilterData] = useState(Initialfiler);
   const [checkRequired, setCheckRequired] = useState(false);
 
   const handleInputChange = (event) => {
@@ -66,42 +41,22 @@ const EmployeeTable = (props) => {
     const name = target.name;
 
     // let _date = target.type === "date" ? moment(new Date(value)).format() : "";
-
-    if (name === "from_date") {
-      setFilterData({
-        ...filterData,
-        [name]: value,
-      });
-    } else {
-      setFilterData({
-        ...filterData,
-        [name]: value,
-      });
-    }
+    setSearchDataObj({
+      ...searchDataObj,
+      [name]: value,
+    });
   };
 
-  useEffect(() => {
-    let _filterData = {};
-    _filterData.from_date = moment(filterData.from_date).format();
-    _filterData.to_date = moment(filterData.to_date).format();
-    _filterData.status_selected = filterData.status_selected;
-    _filterData.status_processing = filterData.status_processing;
-    _filterData.status_in_trial = filterData.status_in_trial;
-    _filterData.status_pending = filterData.status_pending;
-    _filterData.status_rejected = filterData.status_rejected;
-    setSearchDataObj(_filterData);
-  }, []);
-
   const onSearch = async () => {
- 
-    let _filterData = {};
-    _filterData.from_date = moment(filterData.from_date).format();
-    _filterData.to_date = moment(filterData.to_date).format();
-    _filterData.status_selected = filterData.status_selected;
-    _filterData.status_processing = filterData.status_processing;
-    _filterData.status_in_trial = filterData.status_in_trial;
-    _filterData.status_pending = filterData.status_pending;
-    _filterData.status_rejected = filterData.status_rejected;
+    let _filterData = {
+      from_date: moment(searchDataObj.from_date).format(),
+      to_date: moment(searchDataObj.to_date).format(),
+      status_selected: searchDataObj.status_selected,
+      status_processing: searchDataObj.status_processing,
+      status_in_trial: searchDataObj.status_in_trial,
+      status_pending: searchDataObj.status_pending,
+      status_rejected: searchDataObj.status_rejected,
+    };
     setCheckRequired(true);
 
     let require = true;
@@ -114,13 +69,8 @@ const EmployeeTable = (props) => {
     });
 
     if (require) {
-      setSearchDataObj(_filterData);
-
-      // let res = await searchEmployeesData(_filterData);
-      // setSearchData(res.data);
-      // setGetData(res.data);
-
-      // console.log(res.data);
+      let res = await searchEmployeesData(_filterData);
+      setGetData(res.data);
     }
   };
 
@@ -145,7 +95,7 @@ const EmployeeTable = (props) => {
                   type="date"
                   id="from_date"
                   name="from_date"
-                  value={filterData.from_date}
+                  value={searchDataObj.from_date}
                   // className="Req2"
                   placeholder="Enter Salary"
                   onChange={(e) => handleInputChange(e)}
@@ -160,8 +110,8 @@ const EmployeeTable = (props) => {
                   TO: <span className="text-danger">*</span>
                 </CLabel>
                 {checkRequired &&
-                filterData.from_date &&
-                (!filterData.to_date || filterData.to_date === "-1") ? (
+                searchDataObj.from_date &&
+                (!searchDataObj.to_date || searchDataObj.to_date === "-1") ? (
                   <RequiredField />
                 ) : null}
               </CCol>
@@ -170,12 +120,12 @@ const EmployeeTable = (props) => {
                   type="date"
                   id="to_date"
                   name="to_date"
-                  value={filterData.to_date}
-                  className={filterData.from_date ? "Req2" : ""}
+                  value={searchDataObj.to_date}
+                  className={searchDataObj.from_date ? "Req2" : ""}
                   placeholder="Enter Salary"
                   onChange={(e) => handleInputChange(e)}
                   autocomplete="off"
-                  min={filterData.from_date}
+                  min={searchDataObj.from_date}
                   max={maxDate.max_date}
                 />
               </CCol>

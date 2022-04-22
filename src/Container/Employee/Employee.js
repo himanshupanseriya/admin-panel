@@ -1,23 +1,18 @@
 import { CCard, CCardHeader } from "@coreui/react";
 import React, { useEffect, useState } from "react";
 import {
-  getEmployeesData,
   searchEmployeesData,
 } from "../../Services/EmployeeApi";
 import EmployeeModel from "./EmployeeModel";
 import EmployeeTable from "./EmployeeTable";
 import { CButton } from "@coreui/react";
-import { deleteEmployee } from "../../Services/EmployeeApi";
 import CIcon from "@coreui/icons-react";
-import { cilPencil, cilTrash, cilWindowRestore } from "@coreui/icons";
-import { useDispatch, useSelector } from "react-redux";
+import { cilPencil, cilTrash } from "@coreui/icons";
+import { useDispatch } from "react-redux";
 import {
-  employeeData,
   employeeDataDelete,
 } from "../../Redux/Actions/EmployeeAction";
 import WarningModel from "../../Components/WarningModel";
-import { DELETE_EMPLOYEE_DATA } from "../../Redux/ActionTypes/EmployeeActionType";
-import employeeReducer from "../../Redux/Reducers/EmployeeReducer";
 import moment from "moment";
 
 const InitialEmployee = {
@@ -42,29 +37,33 @@ const InitialEmployee = {
   panCard_photo: "",
 };
 
+const Initialfiler = {
+  from_date: "",
+  to_date: "",
+  status_selected: false,
+  status_processing: false,
+  status_in_trial: false,
+  status_pending: false,
+  status_rejected: false,
+};
+
 const Employee = () => {
   const dispatch = useDispatch();
-
   const [showModal, setShowModal] = useState(false);
   const [employee, setEmployee] = useState(InitialEmployee);
   const [getData, setGetData] = useState();
   const [deleteModel, setDeleteModel] = useState(false);
   const [employeeId, setEmployeeId] = useState(0);
-  const [searchDataObj, setSearchDataObj] = useState();
-
-  // let flag = false;
-  // if(searchDataObj){
-  //   flag = true;
-  // }
+  const [searchDataObj, setSearchDataObj] = useState(Initialfiler);
 
   useEffect(() => {
     init();
-  }, [searchDataObj]);
+  }, []);
 
   const init = async () => {
     let res = await searchEmployeesData(searchDataObj);
     setGetData(res.data);
-  }; 
+  };
 
   const fields = [
     { key: "firstName", label: "First Name" },
@@ -240,6 +239,7 @@ const Employee = () => {
           />
         </CCardHeader>
         <EmployeeTable
+        searchDataObj={searchDataObj}
           fields={fields}
           data={getData}
           scopedSlots={scopedSlots}
