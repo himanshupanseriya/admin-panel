@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   CAccordion,
   CAccordionBody,
@@ -14,7 +14,7 @@ import {
   CSidebarNavTitle,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import SimpleBar from "simplebar-react";
 
 import {
@@ -23,70 +23,88 @@ import {
   cilDollar,
   cilGraph,
   cilUser,
+  cilCaretBottom,
 } from "@coreui/icons";
 import { NavLink } from "react-router-dom";
 
 const Sidebar = (props) => {
   const { title } = props;
-  const dispatch = useDispatch();
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
+  const selectSidebarValue = useRef(null);
+
+  const openSubMenu = (e) => {
+    e.target.classList.toggle("active-tab");
+    e.target.nextSibling.classList.toggle("hide-content");
+    e.target.parentElement.classList.toggle("e-accordion-item");
+  };
+
   return (
     <>
       <CSidebar
         position="fixed"
-        // visible={sidebarShow}
-        // onVisibleChange={(visible) => {
-        //   dispatch({ type: "set", sidebarShow: visible });
-        // }}
-        style={{ left: sidebarShow ? "0" : "-256px" ,transition:"0.3s"}}
+        style={{ left: sidebarShow ? "10px" : "-256px", transition: "0.3s" }}
       >
         <CSidebarBrand className="d-none d-md-flex">
-          <CIcon icon={cilDiamond} size="xl" />
+          <CIcon content={cilDiamond} />
         </CSidebarBrand>
         <CSidebarNav>
-          <SimpleBar>
+          <div className="sidebar-wrapper">
             <CSidebarNavTitle>{title}</CSidebarNavTitle>
-            <div className="accordion" activeItemKey={1}>
-              <div className="accordion-item" itemKey={1} className="bg-transparent">
-                <div className="accordion-header">
-                  <CIcon customClassName="nav-icon" icon={cilUser} />
-                  Employee
-                </div>
-                <div className="py-0 px-0 accordion-body">
-                  <NavLink to="/employee" className="text-decoration-none">
-                    <CSidebarNavItem to="/employee">
-                      <CIcon customClassName="nav-icon" />
-                      List
-                    </CSidebarNavItem>
-                  </NavLink>
-                  <NavLink to="/commission" className="text-decoration-none">
-                    <CNavItem to="/commission">
-                      <CIcon customClassName="nav-icon"/>
-                      Commission
-                    </CNavItem>
-                  </NavLink>
-                  <NavLink to="/salary" className="text-decoration-none">
-                    <CNavItem to="/salary">
-                      <CIcon customClassName="nav-icon"/>
-                      Salary
-                    </CNavItem>
-                  </NavLink>
-                </div>
+            <div className="c-accordion-item e-accordion-item bg-transparent">
+              <div
+                className="c-accordion-header active-tab"
+                id="headingOne"
+                onClick={openSubMenu}
+              >
+                <CIcon content={cilUser} />
+                Employee
+              </div>
+              <div className="py-0 px-0 c-accordion-body">
+                <NavLink to="/employee" className="text-decoration-none">
+                  <CNavItem to="/employee">
+                    <CIcon />
+                    List
+                  </CNavItem>
+                </NavLink>
+                <NavLink to="/commission" className="text-decoration-none">
+                  <CNavItem to="/commission">
+                    <CIcon />
+                    Commission
+                  </CNavItem>
+                </NavLink>
+                <NavLink to="/salary" className="text-decoration-none">
+                  <CNavItem to="/salary">
+                    <CIcon />
+                    Salary
+                  </CNavItem>
+                </NavLink>
               </div>
             </div>
-            <NavLink to="/vendors" className="text-decoration-none">
-              <CNavItem to="/vendors">
-                <CIcon customClassName="nav-icon" icon={cilPeople} />
-                Vendors
-              </CNavItem>
-            </NavLink>
+            <div className="c-accordion-item bg-transparent">
+              <div
+                className="c-accordion-header"
+                id="headingOne"
+                onClick={openSubMenu}
+              >
+                <CIcon content={cilPeople} />
+                Venders
+              </div>
+              <div className="py-0 px-0 c-accordion-body hide-content">
+                <NavLink to="/vendors" className="text-decoration-none">
+                  <CNavItem to="/vendors">
+                    <CIcon />
+                    List
+                  </CNavItem>
+                </NavLink>
+              </div>
+            </div>
             <NavLink to="/client" className="text-decoration-none">
               <CNavItem to="/client">
-                <CIcon customClassName="nav-icon" icon={cilGraph} />
+                <CIcon content={cilGraph} />
                 Clients
               </CNavItem>
             </NavLink>
-          </SimpleBar>
+          </div>
         </CSidebarNav>
       </CSidebar>
     </>

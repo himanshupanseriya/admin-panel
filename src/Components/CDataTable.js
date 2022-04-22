@@ -6,7 +6,7 @@ import style from "../Asset/css/CDataTableModule.css";
 import CIcon from "@coreui/icons-react";
 import { cilArrowTop, cilBan, cilFilterX } from "@coreui/icons";
 import { connect } from "react-redux";
-
+import { Alert } from "@coreui/coreui-pro";
 
 //component - CoreUI / CTable
 const CDataTable = (props) => {
@@ -64,13 +64,16 @@ const CDataTable = (props) => {
     ManageDefs,
     setVarDef,
     setManageDef,
-    showAddForm
+    showAddForm,
   } = props;
 
   // console.log(customObj, "----------Cdatatable--------------");
 
-  const compData = useRef({ firstRun: true, columnFiltered: 0, changeItems: 0 })
-    .current;
+  const compData = useRef({
+    firstRun: true,
+    columnFiltered: 0,
+    changeItems: 0,
+  }).current;
 
   //
   const [perPageItems, setPerPageItems] = useState(itemsPerPage);
@@ -94,7 +97,6 @@ const CDataTable = (props) => {
     }
     return classes;
   };
-
   const pretifyName = (name) => {
     return name
       .replace(/[-_.]/g, " ")
@@ -230,11 +232,11 @@ const CDataTable = (props) => {
   useMemo(() => {
     compData.columnFiltered++;
   }, [
-      JSON.stringify(columnFilter),
-      JSON.stringify(columnFilterState),
-      itemsDataColumns.join(""),
-      compData.changeItems,
-    ]);
+    JSON.stringify(columnFilter),
+    JSON.stringify(columnFilterState),
+    itemsDataColumns.join(""),
+    compData.changeItems,
+  ]);
 
   const columnFiltered = useMemo(() => {
     let items = passedItems;
@@ -287,10 +289,10 @@ const CDataTable = (props) => {
     });
     return sorted;
   }, [
-      JSON.stringify(tableFiltered),
-      JSON.stringify(sorterState),
-      JSON.stringify(sorter),
-    ]);
+    JSON.stringify(tableFiltered),
+    JSON.stringify(sorterState),
+    JSON.stringify(sorter),
+  ]);
 
   useEffect(() => {
     !compData.firstRun &&
@@ -311,6 +313,7 @@ const CDataTable = (props) => {
     addTableClasses,
   ];
 
+ 
   const columnNames = useMemo(() => {
     if (fields) {
       return fields.map((f) => {
@@ -352,10 +355,7 @@ const CDataTable = (props) => {
     label:
       (itemsPerPageSelect && itemsPerPageSelect.label) || "Items per page:",
     values: (itemsPerPageSelect && itemsPerPageSelect.values) || [
-      10,
-      20,
-      50,
-      100,
+      10, 20, 50, 100,
     ],
   };
 
@@ -386,9 +386,10 @@ const CDataTable = (props) => {
 
   useMemo(() => setTableFilterState(tableFilterValue), [tableFilterValue]);
 
-  useMemo(() => setColumnFilterState({ ...columnFilterValue }), [
-    columnFilterValue,
-  ]);
+  useMemo(
+    () => setColumnFilterState({ ...columnFilterValue }),
+    [columnFilterValue]
+  );
 
   //items
   useMemo(() => {
@@ -421,17 +422,22 @@ const CDataTable = (props) => {
             key={index}
           >
             {columnHeaderSlot[`${rawColumnNames[index]}`] || (
-              <div className={`d-inline ${fields[index] ?._childClass}`} style={fields[index] ?._childStyle}>{name}</div>
+              <div
+                className={`d-inline ${fields[index]?._childClass}`}
+                style={fields[index]?._childStyle}
+              >
+                {name}
+              </div>
             )}
             {isSortable(index) &&
               ((sortingIconSlot &&
                 sortingIconSlot(getIconState(index), iconClasses(index))) || (
-                  <CIcon
-                    customClasses={classNames(iconClasses(index))}
-                    width={18}
-                    content={cilArrowTop}
-                  />
-                ))}
+                <CIcon
+                  customClasses={classNames(iconClasses(index))}
+                  width={18}
+                  content={cilArrowTop}
+                />
+              ))}
           </th>
         );
       })}
@@ -440,9 +446,7 @@ const CDataTable = (props) => {
 
   return (
     <React.Fragment>
-      {
-        headerComp
-      }
+      {headerComp}
       {overTableSlot}
 
       <div className={`position-relative ${responsive && "table-responsive"}`}>
@@ -451,7 +455,7 @@ const CDataTable = (props) => {
             {theadTopSlot}
             {header && headerContent}
             {columnFilter && (
-              <tr className="table-sm">
+              <tr className="table-sm" >
                 {rawColumnNames.map((colName, index) => {
                   return (
                     <th className={classNames(headerClass(index))} key={index}>
@@ -483,7 +487,7 @@ const CDataTable = (props) => {
               </tr>
             )}
           </thead>
-          <tbody style={clickableRows && { cursor: "pointer" }}>
+          <tbody style={clickableRows && { cursor: "pointer"}}>
             {currentItems.map((item, itemIndex) => {
               return (
                 <React.Fragment key={itemIndex}>
@@ -508,14 +512,25 @@ const CDataTable = (props) => {
                             className={classNames(
                               cellClass(item, colName, index)
                             )}
-                            style={colName == "coid" || colName == "index" || colName == "library"
-                              || colName == "version" || colName == "programType" || colName == "comboProgramYN"
-                              || colName == "uwlevel" || colName == "morerestrictive" || colName == "Co_ID" || colName == "Status" ||colName == "status"
-                              || colName == "CO_ID"
-                              ? { textAlign: "center" } : {}}
+                            style={
+                              colName == "coid" ||
+                              colName == "index" ||
+                              colName == "library" ||
+                              colName == "version" ||
+                              colName == "programType" ||
+                              colName == "comboProgramYN" ||
+                              colName == "uwlevel" ||
+                              colName == "morerestrictive" ||
+                              colName == "Co_ID" ||
+                              colName == "Status" ||
+                              colName == "status" ||
+                              colName == "CO_ID"
+                                ? { textAlign: "center" }
+                                : {}
+                            }
                             key={index}
                           >
-                          {String(item[colName])}
+                            {String(item[colName])}
                           </td>
                         )
                       );
@@ -578,17 +593,21 @@ const CDataTable = (props) => {
       </div>
 
       {underTableSlot}
-      <div >
-        <div className="float-left form-inline my-xl-n2">
-          {showAddForm}
-        </div>
+      <div>
+        <div className="float-left form-inline my-xl-n2">{showAddForm}</div>
         <div className="d-flex justify-content-end align-items-end">
           {itemsPerPageSelect && (
             <div className="d-flex align-items-center">
-              <label className="me-2" style={{ margin: "0" }}>{paginationSelect.label}</label>
+              <label className="me-2" style={{ margin: "0" }}>
+                {paginationSelect.label}
+              </label>
               <select
                 className="form-control"
-                style={totalPages == 1 ? { height: "35px", width:"55px" } : { marginRight: "10px", height: "35px", width:"55px"  }}
+                style={
+                  totalPages == 1
+                    ? { height: "35px", width: "55px" }
+                    : { marginRight: "10px", height: "35px", width: "55px" }
+                }
                 onChange={paginationChange}
                 aria-label="changes number of visible items"
               >
@@ -597,7 +616,11 @@ const CDataTable = (props) => {
                 </option>
                 {paginationSelect.values.map((number, key) => {
                   return (
-                    <option selected={number == 10 ? "true" : ""} val={number} key={key}>
+                    <option
+                      selected={number == 10 ? "true" : ""}
+                      val={number}
+                      key={key}
+                    >
                       {number}
                     </option>
                   );
@@ -605,38 +628,39 @@ const CDataTable = (props) => {
               </select>
             </div>
           )}
-          {totalPages == 1 ?
+          {totalPages == 1 ? (
             <>
-            <div className="">
-              {pagination && (
-                <CPagination
-                  {...paginationProps}
-                  style={{ display: totalPages > 1 ? "inline" : "none" }}
-                  onActivePageChange={(page) => {
-                    setPage(page);
-                  }}
-                  pages={totalPages}
-                  activePage={page}
-                />
-              )}
-            </div>
+              <div className="">
+                {pagination && (
+                  <CPagination
+                    {...paginationProps}
+                    style={{ display: totalPages > 1 ? "inline" : "none" }}
+                    onActivePageChange={(page) => {
+                      setPage(page);
+                    }}
+                    pages={totalPages}
+                    activePage={page}
+                  />
+                )}
+              </div>
             </>
-            :
+          ) : (
             <>
-            <div className="" >
-              {pagination && (
-                <CPagination
-                  {...paginationProps}
-                  style={{ display: totalPages > 1 ? "inline" : "none" }}
-                  onActivePageChange={(page) => {
-                    setPage(page);
-                  }}
-                  pages={totalPages}
-                  activePage={page}
-                />
-              )}
-            </div>
-            </>}
+              <div className="">
+                {pagination && (
+                  <CPagination
+                    {...paginationProps}
+                    style={{ display: totalPages > 1 ? "inline" : "none" }}
+                    onActivePageChange={(page) => {
+                      setPage(page);
+                    }}
+                    pages={totalPages}
+                    activePage={page}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </React.Fragment>
@@ -711,12 +735,12 @@ CDataTable.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
-  state = state.changeState
+  state = state.changeState;
   return {
     varDef: state.varDef,
     ManageDefs: state.ManageDefs,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -724,7 +748,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: "set",
         varDef: data,
-
       }),
     setManageDef: (data) =>
       dispatch({
@@ -734,6 +757,5 @@ const mapDispatchToProps = (dispatch) => {
       }),
   };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CDataTable);

@@ -11,3 +11,45 @@
 .sidebar-nav .accordion-button:focus{
   box-shadow: none;
 }
+.sidebar-wrapper .nav-item {
+  padding: 10px;
+  color: white;
+  transition: 0.3s;
+}
+.sidebar-wrapper .active .nav-item {
+  background-color: hsla(0,0%,100%,.05);
+  margin: 0 10px;
+  border-radius: var(--radius);
+}
+.sidebar-wrapper .c-accordion-header {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-wrapper .c-accordion-header svg ,
+.sidebar-wrapper .nav-item svg {
+  margin-right: 10px;
+}
+.hide-content {
+  height: 0;
+  overflow: hidden;
+  transition: 0.3s;
+}
+.e-accordion-item{
+  transition: 0.3s;
+  background: rgb(0 0 0 / 20%) !important;
+  padding-bottom: 10px;
+}
+.c-accordion-header::after{
+  content: "";
+  display: block;
+  height: 12px;
+  width: 12px;
+  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='rgba%28255, 255, 255, 0.87%29'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  margin-left: auto;
+  transition: 0.3s;
+}
+.active-tab.c-accordion-header::after{
+  transform: rotate(180deg);
+}

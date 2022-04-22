@@ -1,20 +1,30 @@
-import React, { Suspense, useEffect } from 'react'
-import { BrowserRouter as Routes, Redirect, Route, Switch, useLocation } from 'react-router-dom'
-import { CContainer, CSpinner } from '@coreui/react'
+import React, { Suspense, useEffect } from "react";
+import {
+  BrowserRouter as Routes,
+  Redirect,
+  Route,
+  Switch,
+  useLocation,
+} from "react-router-dom";
+import { CContainer, CSpinner } from "@coreui/react";
 
 // routes config
-import contentRoutes from '../routes'
+import contentRoutes from "../routes";
+import { employeeData } from "../Redux/Actions/EmployeeAction";
+import { useDispatch } from "react-redux";
 
 const Content = () => {
-  const location = useLocation()
-  useEffect(()=>{
+  const dispatch = useDispatch();
+  const location = useLocation();
+  useEffect(() => {
     let pathName = location.pathname;
-    pathName = pathName.substring(1)
+    pathName = pathName.substring(1);
     let first = pathName.charAt(0);
     let upper = first.toUpperCase();
-    pathName = pathName.substring(1)
+    pathName = pathName.substring(1);
     document.title = `${upper + pathName}`;
-  },[location.pathname])
+  }, [location.pathname]);
+
   return (
     <CContainer>
       <Suspense fallback={<CSpinner color="primary" />}>
@@ -27,17 +37,19 @@ const Content = () => {
                   path={route.path}
                   exact={route.exact}
                   name={route.name}
-                  // element={}
-                ><route.element />
-                  </Route>
+                >
+                  <route.element />
+                </Route>
               )
-            )
+            );
           })}
-          <Route path="/" element={<Redirect to="/employee" replace />} />
+          <Route path="/">
+            <Redirect to="/employee" replace />
+          </Route>
         </Switch>
       </Suspense>
     </CContainer>
-  )
-}
+  );
+};
 
-export default React.memo(Content)
+export default React.memo(Content);
