@@ -14,21 +14,11 @@ import {
   CSelect,
 } from "@coreui/react";
 import React, { useState } from "react";
-import {
-  getEmployeesData,
-  saveEmployee,
-  updateEmployee,
-} from "../../Services/EmployeeApi";
+import { saveEmployee } from "../../Services/EmployeeApi";
 import { RequiredField } from "../../Utils/CommonUtils";
-import {
-  employeeDataUpdate,
-  employeeDataSave,
-} from "../../Redux/Actions/EmployeeAction";
-import { useDispatch, useSelector } from "react-redux";
 import NextPrevious from "../../Components/NextPrevious";
 import moment from "moment";
 import FormRangeUi from "../../Components/formRangeUI";
-import { type } from "@testing-library/user-event/dist/type";
 
 const EmployeeModel = (props) => {
   const {
@@ -38,10 +28,8 @@ const EmployeeModel = (props) => {
     employee,
     init,
     InitialEmployee,
-    setGetData,
   } = props;
   const [checkRequired, setCheckRequired] = useState(false);
-  const dispatch = useDispatch();
   const [modelNumberShow, setModelNumberShow] = useState({
     firstModal: true,
     secondModel: false,
@@ -155,7 +143,7 @@ const EmployeeModel = (props) => {
       // dispatchSaveEmployee(employee);
       closeModel();
     }
-  }; 
+  };
   const onAddNewEmployee = () => {
     setShowModal(true);
     setEmployee(InitialEmployee);
