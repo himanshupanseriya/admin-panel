@@ -41,3 +41,15 @@ input[type="button"]:hover {
 .pagination{
   margin: 0 !important;
 }
+
+table tr td:last-child{
+  position: sticky;
+  right: 0px;
+  background-color: white;
+}
+table tr th:last-child{
+  position: sticky !important;
+  right: -1px;
+  background-color: white;
+}
+

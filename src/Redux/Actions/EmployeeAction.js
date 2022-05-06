@@ -41,9 +41,9 @@ export function employeeDataSave(data) {
   };
 }
 
-export function employeeDataUpdate(data) {
+export function employeeDataUpdate(id, data) {
   return async (dispatch) => {
-    const res = await updateEmployee(data._id, data);
+    const res = await updateEmployee(id, data);
     return dispatch({
       type: EDIT_EMPLOYEE_DATA,
       payload: res.data,

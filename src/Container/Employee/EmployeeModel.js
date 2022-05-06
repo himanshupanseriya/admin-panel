@@ -13,12 +13,14 @@ import {
   CInputFile,
   CSelect,
 } from "@coreui/react";
-import React, { useState } from "react";
-import { saveEmployee } from "../../Services/EmployeeApi";
+import React, { useEffect, useState } from "react";
+import { saveEmployee, updateEmployee } from "../../Services/EmployeeApi";
 import { RequiredField } from "../../Utils/CommonUtils";
 import NextPrevious from "../../Components/NextPrevious";
 import moment from "moment";
 import FormRangeUi from "../../Components/formRangeUI";
+import { useDispatch } from "react-redux";
+import { employeeData, employeeDataUpdate } from "../../Redux/Actions/EmployeeAction";
 
 const EmployeeModel = (props) => {
   const {
@@ -28,18 +30,24 @@ const EmployeeModel = (props) => {
     employee,
     init,
     InitialEmployee,
+    onEdit,
+    setOnEdit,
+    forId,
+    prevStatus
   } = props;
+  const dispatch = useDispatch();
   const [checkRequired, setCheckRequired] = useState(false);
   const [modelNumberShow, setModelNumberShow] = useState({
     firstModal: true,
     secondModel: false,
     tiredModal: false,
   });
+  const [onError, setOnError] = useState(false)
   const maxDate = {
     max_date: moment().format("YYYY-MM-DD"),
   };
 
-  const status = ["PENDING", "PROCESSING", "IN-TRIAL", "SELECTED", "REJECTED"];
+  const status = ["PENDING", "PROCESSING", "INTRIAL", "SELECTED", "REJECTED"];
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -82,7 +90,6 @@ const EmployeeModel = (props) => {
         require = false;
       }
     });
-
     // for (const property in employee) {
     //   formData.append(`${property}`, `${employee[property]}`);
     // }
@@ -129,25 +136,99 @@ const EmployeeModel = (props) => {
     formData.append("panCard_photo", employee.panCard_photo);
 
     if (require) {
-      await saveEmployee(formData);
-      init();
-      // getEmployeesData(formData)
+      saveEmployee(formData).then(() => {
+        init();
+        // getEmployeesData(formData)
 
-      // for (var pair of formData.entries()) {
-      //   console.log(pair[0] + ", " + pair[1]);
-      // }
-      // employee._id
-      // ? dispatchUpdateEmployee(employee)
-      // : // await updateEmployee(employee._id, employee)
-      // await saveEmployee(employee);
-      // dispatchSaveEmployee(employee);
-      closeModel();
+        // for (var pair of formData.entries()) {
+        //   console.log(pair[0] + ", " + pair[1]);
+        // }
+        // employee._id
+        // ? dispatchUpdateEmployee(employee)
+        // : // await updateEmployee(employee._id, employee)
+        // await saveEmployee(employee);
+        // dispatchSaveEmployee(employee);
+        closeModel();
+      })
+        .catch(err => {
+          setOnError(true)
+          console.log(err.response.data.message);
+          jumpModel()
+        })
     }
   };
   const onAddNewEmployee = () => {
     setShowModal(true);
     setEmployee(InitialEmployee);
+    setOnEdit(false)
   };
+
+  const onUpdateEmployee = () => {
+    var formData = new FormData();
+    setCheckRequired(true)
+    let require = true;
+    const requiredFieldCollection = document.getElementsByClassName("Req");
+    let requiredFields = [...requiredFieldCollection];
+    requiredFields = requiredFields.map((field) => {
+      if (field.value === "") {
+        require = false;
+      }
+    });
+
+    formData.append("firstName", employee.firstName);
+    formData.append("lastName", employee.lastName);
+    formData.append("mobile", employee.mobile);
+    formData.append("email", employee.email);
+    formData.append("dob", moment(employee.dob).format());
+    formData.append("salary", employee.salary);
+    formData.append("address1", employee.address1);
+    formData.append("address2", employee.address2);
+    formData.append("status", employee.status);
+    formData.append(
+      "form_entry_date",
+      employee.form_entry_date ? moment(employee.form_entry_date).format() : ""
+    );
+    formData.append(
+      "process_date",
+      employee.process_date ? moment(employee.process_date).format() : ""
+    );
+    formData.append(
+      "trial_start_date",
+      employee.trial_start_date
+        ? moment(employee.trial_start_date).format()
+        : ""
+    );
+    formData.append(
+      "trial_end_date",
+      employee.trial_end_date ? moment(employee.trial_end_date).format() : ""
+    );
+    formData.append(
+      "employee_start_date",
+      employee.employee_start_date
+        ? moment(employee.employee_start_date).format()
+        : ""
+    );
+    formData.append(
+      "rejected_date",
+      employee.rejected_date ? moment(employee.rejected_date).format() : ""
+    );
+    formData.append("employee_code", employee.employee_code);
+    formData.append("profile_photo", employee.profile_photo);
+    formData.append("aadharCard_photo", employee.aadharCard_photo);
+    formData.append("panCard_photo", employee.panCard_photo);
+
+    if (require) {
+      dispatch(employeeDataUpdate(forId, formData)).then(() => {
+        dispatch(employeeData())
+        init()
+        closeModel()
+      })
+        .catch(err => {
+          setOnError(true)
+          jumpModel()
+        })
+    };
+  }
 
   const nextHandle = () => {
     setCheckRequired(true);
@@ -201,6 +282,18 @@ const EmployeeModel = (props) => {
         });
     }
   };
+
+  const jumpModel = () => {
+    {
+      showModal &&
+        modelNumberShow.tiredModal &&
+        setModelNumberShow({
+          ...modelNumberShow,
+          tiredModal: false,
+          secondModel: true,
+        });
+    }
+  }
   return (
     <>
       <h3>Employee Table</h3>
@@ -230,8 +323,8 @@ const EmployeeModel = (props) => {
                   First Name : <span className="text-danger">*</span>
                 </CLabel>
                 {checkRequired &&
-                (!employee.firstName || employee.firstName === "-1") ? (
-                  <RequiredField />
+                  (!employee.firstName || employee.firstName === "-1") ? (
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="8">
@@ -252,8 +345,8 @@ const EmployeeModel = (props) => {
                   Last Name:<span className="text-danger">*</span>
                 </CLabel>
                 {checkRequired &&
-                (!employee.lastName || employee.lastName === "-1") ? (
-                  <RequiredField />
+                  (!employee.lastName || employee.lastName === "-1") ? (
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="8">
@@ -274,8 +367,8 @@ const EmployeeModel = (props) => {
                   Mobile No:<span className="text-danger">*</span>
                 </CLabel>
                 {checkRequired &&
-                (!employee.mobile || employee.mobile === "-1") ? (
-                  <RequiredField />
+                  (!employee.mobile || employee.mobile === "-1") ? (
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="8">
@@ -298,8 +391,8 @@ const EmployeeModel = (props) => {
                   Email Id:<span className="text-danger">*</span>
                 </CLabel>
                 {checkRequired &&
-                (!employee.email || employee.email === "-1") ? (
-                  <RequiredField />
+                  (!employee.email || employee.email === "-1") ? (
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="8">
@@ -321,7 +414,7 @@ const EmployeeModel = (props) => {
                   Date Of Birth : <span className="text-danger">*</span>
                 </CLabel>
                 {checkRequired && (!employee.dob || employee.dob === "-1") ? (
-                  <RequiredField />
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="8">
@@ -343,8 +436,8 @@ const EmployeeModel = (props) => {
                   Salary : <span className="text-danger">*</span>
                 </CLabel>
                 {checkRequired &&
-                (!employee.salary || employee.salary === "-1") ? (
-                  <RequiredField />
+                  (!employee.salary || employee.salary === "-1") ? (
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="8">
@@ -367,7 +460,7 @@ const EmployeeModel = (props) => {
                 </CLabel>
                 {checkRequired &&
                 (!employee.status || employee.status === "-1") ? (
-                  <RequiredField />
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="8">
@@ -393,8 +486,8 @@ const EmployeeModel = (props) => {
                   Address 1:<span className="text-danger">*</span>
                 </CLabel>
                 {checkRequired &&
-                (!employee.address1 || employee.address1 === "-1") ? (
-                  <RequiredField />
+                  (!employee.address1 || employee.address1 === "-1") ? (
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="8">
@@ -415,8 +508,8 @@ const EmployeeModel = (props) => {
                   Address 2:<span className="text-danger">*</span>
                 </CLabel>
                 {checkRequired &&
-                (!employee.address2 || employee.address2 === "-1") ? (
-                  <RequiredField />
+                  (!employee.address2 || employee.address2 === "-1") ? (
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="8">
@@ -441,9 +534,9 @@ const EmployeeModel = (props) => {
                   Status: <span className="text-danger">*</span>
                 </CLabel>
                 {!modelNumberShow.firstModal &&
-                checkRequired &&
-                (!employee.status || employee.status === "-1") ? (
-                  <RequiredField />
+                  checkRequired &&
+                  (!employee.status || employee.status === "-1") ? (
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="8">
@@ -472,9 +565,9 @@ const EmployeeModel = (props) => {
                     Form Entry Date : <span className="text-danger">*</span>
                   </CLabel>
                   {checkRequired &&
-                  (!employee.form_entry_date ||
-                    employee.form_entry_date === "-1") ? (
-                    <RequiredField />
+                    (!employee.form_entry_date ||
+                      employee.form_entry_date === "-1") ? (
+                    <RequiredField validationText={"This field is required"} />
                   ) : null}
                 </CCol>
                 <CCol sm="8">
@@ -492,13 +585,13 @@ const EmployeeModel = (props) => {
             )}
             {employee.status === "PROCESSING" && (
               <CRow className="mb-2">
-                <CCol sm="4">
+                <CCol sm="4"> 
                   <CLabel htmlFor="process_date">
                     Processing Date : <span className="text-danger">*</span>
                   </CLabel>
                   {checkRequired &&
-                  (!employee.process_date || employee.process_date === "-1") ? (
-                    <RequiredField />
+                    (!employee.process_date || employee.process_date === "-1") ? (
+                    <RequiredField validationText={"This field is required"} />
                   ) : null}
                 </CCol>
                 <CCol sm="8">
@@ -510,13 +603,13 @@ const EmployeeModel = (props) => {
                     className="Req"
                     onChange={(e) => handleInputChange(e)}
                     autocomplete="off"
-                    min={employee.form_entry_date}
+                    min={!onEdit ? employee.form_entry_date : employee.form_entry_date}
                     max={maxDate.max_date}
                   />
                 </CCol>
               </CRow>
             )}
-            {employee.status === "IN-TRIAL" && (
+            {employee.status === "INTRIAL" && (
               <>
                 <CRow className="mb-2">
                   <CCol sm="4">
@@ -524,9 +617,9 @@ const EmployeeModel = (props) => {
                       Trial Start Date: <span className="text-danger">*</span>
                     </CLabel>
                     {checkRequired &&
-                    (!employee.trial_start_date ||
-                      employee.trial_start_date === "-1") ? (
-                      <RequiredField />
+                      (!employee.trial_start_date ||
+                        employee.trial_start_date === "-1") ? (
+                      <RequiredField validationText={"This field is required"} />
                     ) : null}
                   </CCol>
                   <CCol sm="8">
@@ -539,7 +632,7 @@ const EmployeeModel = (props) => {
                       placeholder="Enter Salary"
                       onChange={(e) => handleInputChange(e)}
                       autocomplete="off"
-                      min={employee.process_date}
+                      min={!onEdit ? employee.form_entry_date : employee.process_date}
                       max={maxDate.max_date}
                     />
                   </CCol>
@@ -550,9 +643,9 @@ const EmployeeModel = (props) => {
                       Trial End Date : <span className="text-danger">*</span>
                     </CLabel>
                     {checkRequired &&
-                    (!employee.trial_end_date ||
-                      employee.trial_end_date === "-1") ? (
-                      <RequiredField />
+                      (!employee.trial_end_date ||
+                        employee.trial_end_date === "-1") ? (
+                      <RequiredField validationText={"This field is required"} />
                     ) : null}
                   </CCol>
                   <CCol sm="8">
@@ -565,8 +658,8 @@ const EmployeeModel = (props) => {
                       placeholder="Enter Salary"
                       onChange={(e) => handleInputChange(e)}
                       autocomplete="off"
-                      min={employee.trial_start_date}
-                      max={maxDate.max_date}
+                      min={!onEdit ? employee.form_entry_date : employee.trial_start_date}
+                    // max={maxDate.max_date}
                     />
                   </CCol>
                 </CRow>
@@ -584,9 +677,9 @@ const EmployeeModel = (props) => {
                       <span className="text-danger">*</span>
                     </CLabel>
                     {checkRequired &&
-                    (!employee.employee_start_date ||
-                      employee.employee_start_date === "-1") ? (
-                      <RequiredField />
+                      (!employee.employee_start_date ||
+                        employee.employee_start_date === "-1") ? (
+                      <RequiredField validationText={"This field is required"} />
                     ) : null}
                   </CCol>
                   <CCol sm="8">
@@ -599,7 +692,7 @@ const EmployeeModel = (props) => {
                       placeholder="Enter Salary"
                       onChange={(e) => handleInputChange(e)}
                       autocomplete="off"
-                      min={employee.trial_end_date}
+                      min={!onEdit ? employee.form_entry_date : employee.trial_end_date}
                       max={maxDate.max_date}
                     />
                   </CCol>
@@ -610,10 +703,13 @@ const EmployeeModel = (props) => {
                       Employee Code : <span className="text-danger">*</span>
                     </CLabel>
                     {checkRequired &&
-                    (!employee.employee_code ||
-                      employee.employee_code === "-1") ? (
-                      <RequiredField />
-                    ) : null}
+                      (!employee.employee_code ||
+                        employee.employee_code === "-1") ? (
+                      <RequiredField validationText={"This field is required"} />
+                    ) : null ||
+                      checkRequired &&
+                      (onError) ? <RequiredField validationText={"Please Enter Unique Employee Code"} /> : null
+                    }
                   </CCol>
                   <CCol sm="8">
                     <CInput
@@ -637,9 +733,9 @@ const EmployeeModel = (props) => {
                     Rejected Date : <span className="text-danger">*</span>
                   </CLabel>
                   {checkRequired &&
-                  (!employee.rejected_date ||
-                    employee.rejected_date === "-1") ? (
-                    <RequiredField />
+                    (!employee.rejected_date ||
+                      employee.rejected_date === "-1") ? (
+                    <RequiredField validationText={"This field is required"} />
                   ) : null}
                 </CCol>
                 <CCol sm="8">
@@ -665,89 +761,92 @@ const EmployeeModel = (props) => {
               <CCol sm="4">
                 <CLabel htmlFor="profile_photo">
                   Photo Upload :{" "}
-                  <span
-                    className={
-                      employee.status === "SELECTED" ? "text-danger" : "d-none"
-                    }
-                  >
-                    *
-                  </span>
+                  {!onEdit ?
+                    <span className={employee.status === "SELECTED" ? "text-danger" : "d-none"}> * </span>
+                    : employee.status === "SELECTED" ? prevStatus && prevStatus !== "SELECTED" && <span className="text-danger" > * </span> : ''}
                 </CLabel>
                 {employee.status === "SELECTED" &&
-                checkRequired &&
-                (!employee.profile_photo || employee.profile_photo === "-1") ? (
-                  <RequiredField />
+                  checkRequired &&
+                  (!employee.profile_photo || employee.profile_photo === "-1") ? (
+                  !onEdit ? <RequiredField validationText={"This field is required"} />
+                    : prevStatus && prevStatus !== "SELECTED" ? <RequiredField validationText={"This field is required"} /> : null
                 ) : null}
               </CCol>
               <CCol sm="8">
                 <CInputFile
+                  // style={onEdit ? {color: "transparent", display:"inline", width:"32%"}: null}
                   type="file"
                   id="profile_photo"
                   name="profile_photo"
                   // value={employee.profile_photo}
-                  className={employee.status === "SELECTED" ? "Req" : ""}
+                  className={!onEdit ? employee.status === "SELECTED" ? "Req" : ""
+                    : prevStatus && prevStatus === "SELECTED" ? "" : employee.status === "SELECTED" && "Req"
+                  }
                   accept="image/png, image/gif, image/jpeg"
                   onChange={(e) => handleInputChange(e)}
                 />
+                {/* {onEdit ? <span>{employee.profile_photo.split("/")[3]}</span>: ''} */}
               </CCol>
             </CRow>
             <CRow className="mb-2">
               <CCol sm="4">
                 <CLabel htmlFor="aadharCard_photo">
                   Adhara-Card :{" "}
-                  <span
-                    className={
-                      employee.status === "SELECTED" ? "text-danger" : "d-none"
-                    }
-                  >
-                    *
-                  </span>
+                  {!onEdit ?
+                    <span className={employee.status === "SELECTED" ? "text-danger" : "d-none"}> * </span>
+                    : employee.status === "SELECTED" ? prevStatus && prevStatus !== "SELECTED" && <span className="text-danger" > * </span> : ''}
                 </CLabel>
                 {employee.status === "SELECTED" &&
-                checkRequired &&
-                (!employee.aadharCard_photo ||
-                  employee.aadharCard_photo === "-1") ? (
-                  <RequiredField />
+                  checkRequired &&
+                  (!employee.aadharCard_photo ||
+                    employee.aadharCard_photo === "-1") ? (
+                  !onEdit ? <RequiredField validationText={"This field is required"} />
+                    : prevStatus && prevStatus !== "SELECTED" ? <RequiredField validationText={"This field is required"} /> : null
                 ) : null}
               </CCol>
               <CCol sm="8">
                 <CInputFile
+                  // style={onEdit ? {color: "transparent", display:"inline", width:"32%"}: null}
                   type="file"
                   id="aadharCard_photo"
                   name="aadharCard_photo"
                   // value={employee.aadharCard_photo}
-                  className={employee.status === "SELECTED" ? "Req" : ""}
+                  className={!onEdit ? employee.status === "SELECTED" ? "Req" : ""
+                    : prevStatus && prevStatus === "SELECTED" ? "" : employee.status === "SELECTED" && "Req"
+                  }
                   onChange={(e) => handleInputChange(e)}
                 />
+                {/* {onEdit ? <span>{employee.aadharCard_photo.split("/")[4]}</span>: ''} */}
               </CCol>
             </CRow>
             <CRow className="mb-2">
               <CCol sm="4">
                 <CLabel htmlFor="panCard_photo">
                   PAN-Card :{" "}
-                  <span
-                    className={
-                      employee.status === "SELECTED" ? "text-danger" : "d-none"
-                    }
-                  >
-                    *
-                  </span>
+                  {!onEdit ?
+                    <span className={employee.status === "SELECTED" ? "text-danger" : "d-none"}> * </span>
+                    : employee.status === "SELECTED" ? prevStatus && prevStatus !== "SELECTED" && <span className="text-danger" > * </span> : ''}
                 </CLabel>
                 {employee.status === "SELECTED" &&
-                checkRequired &&
-                (!employee.panCard_photo || employee.panCard_photo === "-1") ? (
-                  <RequiredField />
+                  checkRequired &&
+                  (!employee.panCard_photo || employee.panCard_photo === "-1") ? (
+                  !onEdit ? <RequiredField validationText={"This field is required"} />
+                    : prevStatus && prevStatus !== "SELECTED" ? <RequiredField validationText={"This field is required"} /> : null
                 ) : null}
               </CCol>
               <CCol sm="8">
                 <CInputFile
+                  // style={onEdit ? {color: "transparent", display:"inline", width:"32%"}: null}
                   type="file"
                   id="panCard_photo"
                   name="panCard_photo"
                   // value={employee.panCard_photo}
-                  className={employee.status === "SELECTED" ? "Req" : ""}
+                  className={!onEdit ? employee.status === "SELECTED" ? "Req" : ""
+                    : prevStatus && prevStatus === "SELECTED" ? "" : employee.status === "SELECTED" && "Req"
+                  }
                   onChange={(e) => handleInputChange(e)}
                 />
+                {/* {onEdit ? <span>{employee.panCard_photo.split("/")[4]}</span>: ''} */}
               </CCol>
             </CRow>
           </CModalBody>
@@ -757,8 +856,11 @@ const EmployeeModel = (props) => {
           <NextPrevious
             previousHandel={previousHandel}
             nextHandle={nextHandle}
-            nextButtonText={modelNumberShow.tiredModal ? "Save" : "Next"}
+            setOnEdit={setOnEdit}
+            onEdit={onEdit}
+            nextButtonText={modelNumberShow.tiredModal ? onEdit ? "Update" : "Save" : "Next"}
             onSaveEmployee={onSaveEmployee}
+            onUpdateEmployee={onUpdateEmployee}
           />
         </CModalFooter>
       </CModal>

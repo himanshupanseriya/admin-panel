@@ -112,7 +112,7 @@ const EmployeeTable = (props) => {
                 {checkRequired &&
                 searchDataObj.from_date &&
                 (!searchDataObj.to_date || searchDataObj.to_date === "-1") ? (
-                  <RequiredField />
+                  <RequiredField validationText={"This field is required"} />
                 ) : null}
               </CCol>
               <CCol sm="6">
@@ -139,7 +139,7 @@ const EmployeeTable = (props) => {
                     id="status_selected"
                     onChange={(e) => handleInputChange(e)}
                     name="status_selected"
-                    // defaultChecked
+                    defaultChecked
                   />
                   <CLabel htmlFor="status_selected">SELECTED</CLabel>
                 </CRow>
@@ -148,7 +148,7 @@ const EmployeeTable = (props) => {
                     id="status_processing"
                     name="status_processing"
                     onChange={(e) => handleInputChange(e)}
-                    // defaultChecked
+                    defaultChecked
                   />
                   <CLabel htmlFor="status_processing">PROCESSING</CLabel>
                 </CRow>
@@ -157,6 +157,7 @@ const EmployeeTable = (props) => {
                     id="status_in_trial"
                     onChange={(e) => handleInputChange(e)}
                     name="status_in_trial"
+                    defaultChecked
                   />
                   <CLabel htmlFor="status_in_trial">IN-TRIAL</CLabel>
                 </CRow>
@@ -167,6 +168,7 @@ const EmployeeTable = (props) => {
                     id="status_pending"
                     onChange={(e) => handleInputChange(e)}
                     name="status_pending"
+                    defaultChecked
                   />
                   <CLabel htmlFor="status_pending">PENDING</CLabel>
                 </CRow>
@@ -175,6 +177,7 @@ const EmployeeTable = (props) => {
                     id="status_rejected"
                     onChange={(e) => handleInputChange(e)}
                     name="status_rejected"
+                    defaultChecked
                   />
                   <CLabel htmlFor="status_rejected">REJECTED</CLabel>
                 </CRow>

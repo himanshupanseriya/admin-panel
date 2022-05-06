@@ -26,16 +26,11 @@ export const searchEmployeesData = async (data) => {
 };
 
 export const saveEmployee = async (data) => {
-  try {
-    let res = await secureAxios({
-      url: "/employee/add",
-      data: data,
-      method: "post",
-    });
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  return secureAxios({
+    url: "/employee/add",
+    data: data,
+    method: "post",
+  });
 };
 
 export const deleteEmployee = async (id) => {

@@ -559,10 +559,10 @@ const CDataTable = (props) => {
             })}
             {!currentItems.length && (
               <tr>
-                <td colSpan={colspan}>
+                <td colSpan={colspan} >
                   {noItemsViewSlot || (
-                    <div className="text-center my-5">
-                      <h2>
+                    <div className="text-center my-5" >
+                      <h2 style={{position: "sticky", width: "10%", left: "40%"}}>
                         {noItemsText}
                         <CIcon
                           width="30"

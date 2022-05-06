@@ -7,6 +7,7 @@ const NextPrevious = (props) => {
     previousButtonText,
     nextButtonText,
     onSaveEmployee,
+    onUpdateEmployee
   } = props;
 
   const previousHandelFun = () => {
@@ -16,8 +17,10 @@ const NextPrevious = (props) => {
   const nextHandleFun = () => {
     if (nextButtonText == "Next") {
       nextHandle();
-    } else {
+    } else if (nextButtonText == "Save") {
       onSaveEmployee();
+    } else if (nextButtonText == "Update") {
+      onUpdateEmployee();
     }
   };
   return (
