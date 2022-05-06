@@ -10,7 +10,7 @@ import CIcon from "@coreui/icons-react";
 import { cilX } from "@coreui/icons";
 
 function WarningModel(props) {
-  const { deleteModel, setDeleteModel, sureWantDelete } = props;
+  const { deleteModel, setDeleteModel, sureWantDelete, init } = props;
 
   return (
     <>
@@ -40,6 +40,7 @@ function WarningModel(props) {
             onClick={() => {
               sureWantDelete(true);
               setDeleteModel(false);
+              init()
             }}
           >
             Yes

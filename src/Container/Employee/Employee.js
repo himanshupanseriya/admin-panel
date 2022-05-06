@@ -10,6 +10,7 @@ import CIcon from "@coreui/icons-react";
 import { cilPencil, cilTrash } from "@coreui/icons";
 import { useDispatch } from "react-redux";
 import {
+  employeeData,
   employeeDataDelete,
 } from "../../Redux/Actions/EmployeeAction";
 import WarningModel from "../../Components/WarningModel";
@@ -40,11 +41,11 @@ const InitialEmployee = {
 const Initialfiler = {
   from_date: "",
   to_date: "",
-  status_selected: false,
-  status_processing: false,
-  status_in_trial: false,
-  status_pending: false,
-  status_rejected: false,
+  status_selected: true,
+  status_processing: true,
+  status_in_trial: true,
+  status_pending: true,
+  status_rejected: true,
 };
 
 const Employee = () => {
@@ -55,6 +56,9 @@ const Employee = () => {
   const [deleteModel, setDeleteModel] = useState(false);
   const [employeeId, setEmployeeId] = useState(0);
   const [searchDataObj, setSearchDataObj] = useState(Initialfiler);
+  const [onEdit, setOnEdit] = useState(false);
+  const [forId, setForId] = useState()
+  const [prevStatus, setPrevStatus] = useState();
 
   useEffect(() => {
     init();
@@ -87,7 +91,10 @@ const Employee = () => {
 
   const sureWantDelete = (sureToDelete) => {
     if (sureToDelete) {
-      dispatch(employeeDataDelete(employeeId));
+      dispatch(employeeDataDelete(employeeId)).then(() => {
+        dispatch(employeeData())
+        init()
+      });
     }
   };
 
@@ -99,35 +106,35 @@ const Employee = () => {
     form_entry_date: (item) => {
       let _date = moment(item.form_entry_date)?.format("DD-MM-YYYY");
       // let _date = item.form_entry_date?.slice(0, 10);
-      return <td>{item.form_entry_date ? _date : "NAN"}</td>;
+      return <td>{item.form_entry_date ? _date : "-"}</td>;
     },
     process_date: (item) => {
       let _date = moment(item.process_date)?.format("DD-MM-YYYY");
       // let _date = item.process_date?.slice(0, 10);
-      return <td>{item.process_date ? _date : "NAN"}</td>;
+      return <td>{item.process_date ? _date : "-"}</td>;
     },
     trial_start_date: (item) => {
       let _date = moment(item.trial_start_date)?.format("DD-MM-YYYY");
       // let _date = item.trial_start_date?.slice(0, 10);
-      return <td>{item.trial_start_date ? _date : "NAN"}</td>;
+      return <td>{item.trial_start_date ? _date : "-"}</td>;
     },
     trial_end_date: (item) => {
       let _date = moment(item.trial_end_date)?.format("DD-MM-YYYY");
       // let _date = item.trial_end_date?.slice(0, 10);
-      return <td>{item.trial_end_date ? _date : "NAN"}</td>;
+      return <td>{item.trial_end_date ? _date : "-"}</td>;
     },
     employee_start_date: (item) => {
       let _date = moment(item.employee_start_date)?.format("DD-MM-YYYY");
       // let _date = item.employee_start_date?.slice(0, 10);
-      return <td>{item.employee_start_date ? _date : "NAN"}</td>;
+      return <td>{item.employee_start_date ? _date : "-"}</td>;
     },
     rejected_date: (item) => {
       let _date = moment(item.rejected_date)?.format("DD-MM-YYYY");
       // let _date = item.rejected_date?.slice(0, 10);
-      return <td>{item.rejected_date ? _date : "NAN"}</td>;
+      return <td>{item.rejected_date ? _date : "-"}</td>;
     },
     employee_code: (item) => {
-      return <td>{item.employee_code ? item.employee_code : "NAN"}</td>;
+      return <td>{item.employee_code ? item.employee_code : "-"}</td>;
     },
     status: (item) => {
       return (
@@ -174,29 +181,22 @@ const Employee = () => {
                   address1: item.address1,
                   address2: item.address2,
                   status: item.status,
-                  form_entry_date: moment(item.form_entry_date).format(
-                    "YYYY-MM-DD"
-                  ),
-                  process_date: moment(item.process_date).format("YYYY-MM-DD"),
-                  trial_start_date: moment(item.trial_start_date).format(
-                    "YYYY-MM-DD"
-                  ),
-                  trial_end_date: moment(item.trial_end_date).format(
-                    "YYYY-MM-DD"
-                  ),
-                  employee_start_date: moment(item.employee_start_date).format(
-                    "YYYY-MM-DD"
-                  ),
-                  rejected_date: moment(item.rejected_date).format(
-                    "YYYY-MM-DD"
-                  ),
-                  employee_code: item.employee_code,
-                  // profile_photo: "",
-                  // aadharCard_photo: "",
-                  // panCard_photo: "",
+                  form_entry_date: (item.form_entry_date) ? moment(item.form_entry_date).format("YYYY-MM-DD") : "",
+                  process_date: (item.process_date) ? moment(item.process_date).format("YYYY-MM-DD") : "",
+                  trial_start_date: (item.trial_start_date) ? moment(item.trial_start_date).format("YYYY-MM-DD") : "",
+                  trial_end_date: (item.trial_end_date) ? moment(item.trial_end_date).format("YYYY-MM-DD") : "",
+                  employee_start_date: (item.employee_start_date) ? moment(item.employee_start_date).format("YYYY-MM-DD") : "",
+                  rejected_date: (item.rejected_date) ? moment(item.rejected_date).format("YYYY-MM-DD") : "",
+                  employee_code: (item.employee_code) ? item.employee_code: "",
+                  profile_photo: item.profile_photo,
+                  aadharCard_photo: item.aadharCard_photo,
+                  panCard_photo: item.panCard_photo,
                 });
                 // setEmployee(item);
+                setForId(item._id)
                 setShowModal(true);
+                setOnEdit(true)
+                setPrevStatus(item.status)
               }}
             >
               <CIcon content={cilPencil}></CIcon>
@@ -225,6 +225,7 @@ const Employee = () => {
         deleteModel={deleteModel}
         setDeleteModel={setDeleteModel}
         sureWantDelete={sureWantDelete}
+        init={init}
       />
       <CCard>
         <CCardHeader className="d-flex align-items-center">
@@ -236,10 +237,14 @@ const Employee = () => {
             InitialEmployee={InitialEmployee}
             setGetData={setGetData}
             init={init}
+            onEdit={onEdit}
+            setOnEdit={setOnEdit}
+            forId={forId}
+            prevStatus={prevStatus}
           />
         </CCardHeader>
         <EmployeeTable
-        searchDataObj={searchDataObj}
+          searchDataObj={searchDataObj}
           fields={fields}
           data={getData}
           scopedSlots={scopedSlots}

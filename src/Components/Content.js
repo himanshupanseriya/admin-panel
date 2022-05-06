@@ -9,7 +9,7 @@ import {
 import { CContainer, CSpinner } from "@coreui/react";
 
 // routes config
-import contentRoutes from "../routes";
+import routes from "../routes";
 import { employeeData } from "../Redux/Actions/EmployeeAction";
 import { useDispatch } from "react-redux";
 
@@ -29,7 +29,7 @@ const Content = () => {
     <CContainer>
       <Suspense fallback={<CSpinner color="primary" />}>
         <Switch>
-          {contentRoutes.map((route, idx) => {
+          {routes.map((route, idx) => {
             return (
               route.element && (
                 <Route

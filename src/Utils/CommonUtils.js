@@ -1,6 +1,9 @@
 import React from "react";
 
-export const RequiredField = () => {
+export const RequiredField = (props) => {
+  const {
+    validationText
+  } = props;
   return (
     <p
       className="reqValidator"
@@ -10,7 +13,7 @@ export const RequiredField = () => {
         fontSize: 10,
       }}
     >
-      This field is required
+      {validationText}
     </p>
   );
 };
